@@ -1,0 +1,80 @@
+package root.epiandroid;
+
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+
+
+public class LoginActivity extends ActionBarActivity {
+
+    private ProgressBar mProgress;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.e("test", "------------------------------------------------");
+        setContentView(R.layout.activity_login);
+        mProgress = (ProgressBar) findViewById(R.id.progressBar);
+        mProgress.setIndeterminate(true);
+        mProgress.setVisibility(View.INVISIBLE);
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgress.setVisibility(View.VISIBLE);
+                PostRequest post = new PostRequest(LoginActivity.this);
+                EditText loginText = (EditText) findViewById(R.id.login);
+                EditText passwordText = (EditText) findViewById(R.id.password);
+                Button button = (Button) findViewById(R.id.button);
+                button.setVisibility(View.INVISIBLE);
+                loginText.setVisibility(View.INVISIBLE);
+                passwordText.setVisibility(View.INVISIBLE);
+                post.execute("/login",
+                        "login", loginText.getText(),
+                        "password", passwordText.getText());
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
+        EditText loginText = (EditText) findViewById(R.id.login);
+        EditText passwordText = (EditText) findViewById(R.id.password);
+        Button button = (Button) findViewById(R.id.button);
+        bar.setVisibility(View.INVISIBLE);
+        button.setVisibility(View.VISIBLE);
+        loginText.setVisibility(View.VISIBLE);
+        passwordText.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+}
