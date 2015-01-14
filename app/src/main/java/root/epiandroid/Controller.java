@@ -25,9 +25,10 @@ public class Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Intent intent = new Intent(ctx, MainActivity2.class);
+        Intent intent = new Intent(ctx, MainActivity.class);
         intent.putExtra(EXTRA_MESSAGE, token);
         ctx.startActivity(intent);
+
     }
 
     public static void info(Context ctx, String str) {
