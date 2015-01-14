@@ -36,7 +36,11 @@ public class MainActivity extends ActionBarActivity
         Intent intent = getIntent();
         String message = intent.getStringExtra(Controller.EXTRA_MESSAGE);
         Log.e("test", message);
-
+        message = message.substring(1, message.length() - 1);
+        Log.e("test", message);
+        PostRequest post = new PostRequest(this);
+        post.execute("/infos",
+                "token", message);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);

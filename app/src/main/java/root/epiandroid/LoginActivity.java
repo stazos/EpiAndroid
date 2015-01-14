@@ -28,13 +28,13 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 mProgress.setVisibility(View.VISIBLE);
-                PostRequest post = new PostRequest(LoginActivity.this);
                 EditText loginText = (EditText) findViewById(R.id.login);
                 EditText passwordText = (EditText) findViewById(R.id.password);
                 Button button = (Button) findViewById(R.id.button);
                 button.setVisibility(View.INVISIBLE);
                 loginText.setVisibility(View.INVISIBLE);
                 passwordText.setVisibility(View.INVISIBLE);
+                PostRequest post = new PostRequest(LoginActivity.this);
                 post.execute("/login",
                         "login", loginText.getText(),
                         "password", passwordText.getText());

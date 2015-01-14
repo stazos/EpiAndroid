@@ -36,7 +36,7 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
         methodMap = new HashMap<String, Method>();
         try {
             methodMap.put("/login", Controller.class.getDeclaredMethod("login", Context.class, String.class));
-            methodMap.put("/info", Controller.class.getDeclaredMethod("info", Context.class, String.class));
+            methodMap.put("/infos", Controller.class.getDeclaredMethod("infos", Context.class, String.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }

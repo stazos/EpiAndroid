@@ -31,7 +31,21 @@ public class Controller {
 
     }
 
-    public static void info(Context ctx, String str) {
+    public static void infos(Context ctx, String str) {
+        Log.e("test", "plopplop");
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode rootNode = mapper.readTree(str.getBytes());
+            JsonNode history = rootNode.get("infos");
+            //JsonNode histOne = history.get("picture");
+            //JsonNode user = histOne.get("picture");
+            //Log.e("test", "https://cdn.local.epitech.eu/userprofil/" + user.toString());
+            String pathPicture = history.get("picture").toString();
+            pathPicture = pathPicture.substring(1, pathPicture.length() - 1);
+            Log.e("test", "https://cdn.local.epitech.eu/userprofil/" + pathPicture);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Log.e("test", "plop2");
     }
 }
