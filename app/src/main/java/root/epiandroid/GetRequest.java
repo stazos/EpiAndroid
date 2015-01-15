@@ -8,8 +8,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -24,19 +24,18 @@ import java.util.Map;
 /**
  * Created by vesy_m on 13/01/15.
  */
-public class PostRequest extends AsyncTask<Object, Void, String> {
+public class GetRequest extends AsyncTask<Object, Void, String> {
 
     private Exception exception;
     private String route;
     private Context context;
     private Map<String, Method> methodMap;
 
-    public PostRequest(Context ctx) {
+    public GetRequest(Context ctx) {
         context = ctx;
         methodMap = new HashMap<String, Method>();
         try {
-            methodMap.put("/login", Controller.class.getDeclaredMethod("login", Context.class, String.class));
-            methodMap.put("/infos", Controller.class.getDeclaredMethod("infos", Context.class, String.class));
+            methodMap.put("/photo", Controller.class.getDeclaredMethod("getPhoto", Context.class, String.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -51,31 +50,17 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
             HttpClient httpClient = new DefaultHttpClient();
 
             route = args.get(0).toString();
-            String url = "https://epitech-api.herokuapp.com" + route;
-            Log.e("test", url);
-            HttpPost httpPost = new HttpPost(url);
-
+            String url = "https://epitech-api.herokuapp.com" + route + "?";
             List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
             for (int i = 1; i < args.size(); i = i + 2) {
-//                String arg1 = "";
-//                String arg2 = "";
-//                if (args.get(i) instanceof String) {
-//                    arg1 = "\"" + args.get(i) + "\"";
-//                } else {
-//                    arg1 = args.get(i).toString();
-//                }
-//                if (args.get(i + 1) instanceof String) {
-//                    arg2 = "\"" + args.get(i + 1) + "\"";
-//                } else {
-//                    arg2 = args.get(i + 1).toString();
-//                }
-//                Log.e("test", arg1 + " " + arg2);
                 nameValuePair.add(new BasicNameValuePair(args.get(i).toString(), args.get(i + 1).toString()));
             }
+            String paramString = URLEncodedUtils.format(nameValuePair, "utf-8");
+            url += paramString;
+            Log.e("test", url);
+            HttpGet httpGet = new HttpGet(url);
 
-
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
-            HttpResponse response = httpClient.execute(httpPost);
+            HttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
             String responseString = EntityUtils.toString(entity, "UTF-8");
             return responseString;
@@ -86,6 +71,8 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
     }
 
     protected void onPostExecute(String str) {
+        if (this.exception != null)
+            Log.e("test", this.exception.getMessage());
         try {
             methodMap.get(route).invoke(Controller.getInstance(), context, str);
         } catch (IllegalAccessException e) {

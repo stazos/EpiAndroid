@@ -22,7 +22,7 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         mProgress = (ProgressBar) findViewById(R.id.progressBar);
         mProgress.setIndeterminate(true);
-        mProgress.setVisibility(View.INVISIBLE);
+        mProgress.setVisibility(View.GONE);
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,13 +31,17 @@ public class LoginActivity extends ActionBarActivity {
                 EditText loginText = (EditText) findViewById(R.id.login);
                 EditText passwordText = (EditText) findViewById(R.id.password);
                 Button button = (Button) findViewById(R.id.button);
-                button.setVisibility(View.INVISIBLE);
-                loginText.setVisibility(View.INVISIBLE);
-                passwordText.setVisibility(View.INVISIBLE);
+                button.setVisibility(View.GONE);
+                loginText.setVisibility(View.GONE);
+                passwordText.setVisibility(View.GONE);
+                String login = loginText.getText().toString();
+                String pass = passwordText.getText().toString();
+                Controller.getInstance().setLogin(login);
                 PostRequest post = new PostRequest(LoginActivity.this);
                 post.execute("/login",
-                        "login", loginText.getText(),
-                        "password", passwordText.getText());
+                        "login", login,
+                        "password", pass);
+
             }
         });
 
@@ -50,7 +54,7 @@ public class LoginActivity extends ActionBarActivity {
         EditText loginText = (EditText) findViewById(R.id.login);
         EditText passwordText = (EditText) findViewById(R.id.password);
         Button button = (Button) findViewById(R.id.button);
-        bar.setVisibility(View.INVISIBLE);
+        bar.setVisibility(View.GONE);
         button.setVisibility(View.VISIBLE);
         loginText.setVisibility(View.VISIBLE);
         passwordText.setVisibility(View.VISIBLE);

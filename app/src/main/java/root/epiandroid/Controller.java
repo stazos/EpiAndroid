@@ -9,14 +9,42 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+import root.epiandroid.model.SessionModel;
+
 /**
  * Created by vesy_m on 14/01/15.
  */
 public class Controller {
 
+    private static final Controller INSTANCE = new Controller();
+
+    public Controller() {
+
+    }
+
+    public static Controller getInstance() {
+        return INSTANCE;
+    }
+
     public final static String EXTRA_MESSAGE = "root.epiandroid.LoginActivity";
 
-    public static void login(Context ctx, String str) {
+    private SessionModel session = new SessionModel();
+
+    public void setToken(String token) {
+        session.setToken(token);
+    }
+
+    public void setLogin(String login) {
+        session.setLogin(login);
+    }
+
+    public void setPicture(String pathPicture) {
+        session.setPhotoPath(pathPicture);
+    }
+
+    public void login(Context ctx, String str) {
+        if (str == null)
+            ((LoginActivity)ctx).onResume();
         ObjectMapper mapper = new ObjectMapper();
         String token = null;
         try {
@@ -25,13 +53,13 @@ public class Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setToken(token);
         Intent intent = new Intent(ctx, MainActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, token);
         ctx.startActivity(intent);
 
     }
 
-    public static void infos(Context ctx, String str) {
+    public void infos(Context ctx, String str) {
         Log.e("test", "plopplop");
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -47,5 +75,16 @@ public class Controller {
             e.printStackTrace();
         }
         Log.e("test", "plop2");
+    }
+
+    public void getPhoto(Context ctx, String str) {
+        Log.e("test", str);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode rootNode = mapper.readTree(str.getBytes());
+            Log.e("test", rootNode.get("url").toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
