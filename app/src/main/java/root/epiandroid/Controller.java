@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 import root.epiandroid.model.SessionModel;
+import root.epiandroid.observer.Observer;
 
 /**
  * Created by vesy_m on 14/01/15.
@@ -24,6 +25,10 @@ public class Controller {
 
     public static Controller getInstance() {
         return INSTANCE;
+    }
+
+    public void addObserverToSessionModel(Observer obs) {
+        session.addObserver(obs);
     }
 
     public final static String EXTRA_MESSAGE = "root.epiandroid.LoginActivity";
@@ -42,9 +47,25 @@ public class Controller {
         session.setPhotoPath(pathPicture);
     }
 
+    public void post(Context ctx, Object... objs) {
+        PostRequest post = new PostRequest(ctx);
+        if (session.getToken() != null)
+            post.execute(objs, "token", session.getToken());
+        else
+            post.execute(objs);
+    }
+
+    public void get(Context ctx, Object... objs) {
+        PostRequest post = new PostRequest(ctx);
+        if (session.getToken() != null)
+            post.execute(objs, "token", session.getToken());
+        else
+            post.execute(objs);
+    }
+
     public void login(Context ctx, String str) {
         if (str == null)
-            ((LoginActivity)ctx).onResume();
+            ((LoginActivity) ctx).onResume();
         ObjectMapper mapper = new ObjectMapper();
         String token = null;
         try {

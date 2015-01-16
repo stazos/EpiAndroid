@@ -1,6 +1,6 @@
 package root.epiandroid.model;
 
-import java.util.ArrayList;
+import android.util.Log;
 
 import root.epiandroid.observer.Observable;
 import root.epiandroid.observer.Observer;
@@ -10,18 +10,25 @@ import root.epiandroid.observer.Observer;
  */
 public abstract class AbstractModel implements Observable {
 
-    private ArrayList<Observer> listObserver = new ArrayList<Observer>();
+    private Observer observer = null;
 
     public void addObserver(Observer obs) {
-        this.listObserver.add(obs);
+        observer = obs;
+        //this.listObserver.add(obs);
     }
 
     public void notifyObserver(SessionModel model) {
-        for (Observer obs : listObserver)
-            obs.update(model);
+        Log.e("test", "Observer Notification");
+        if (observer != null)
+            observer.update(model);
+        //        for (Observer obs : listObserver) {
+//            Log.e("test", "Observer Notification");
+//            obs.update(model);
+//        }
     }
 
     public void removeObserver() {
-        listObserver = new ArrayList<Observer>();
+        observer = null;
+        //listObserver = new ArrayList<Observer>();
     }
 }

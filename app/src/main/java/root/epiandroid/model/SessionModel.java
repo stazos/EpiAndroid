@@ -1,13 +1,15 @@
 package root.epiandroid.model;
 
+import root.epiandroid.observer.Observer;
+
 /**
  * Created by vesy_m on 15/01/15.
  */
 public class SessionModel extends AbstractModel {
 
-    private String token;
-    private String login;
-    private String photoPath;
+    private String token = null;
+    private String login = null;
+    private String photoPath = null;
 
     public SessionModel() {
 
@@ -37,6 +39,12 @@ public class SessionModel extends AbstractModel {
 
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
+        notifyObserver(this);
+    }
+
+    @Override
+    public void addObserver(Observer obs) {
+        super.addObserver(obs);
         notifyObserver(this);
     }
 }

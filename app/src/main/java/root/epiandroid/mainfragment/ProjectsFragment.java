@@ -2,18 +2,19 @@ package root.epiandroid.mainfragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import root.epiandroid.MainActivity;
 import root.epiandroid.R;
+import root.epiandroid.model.SessionModel;
 
 /**
  * Created by vesy_m on 15/01/15.
  */
-public class ProjectsFragment extends Fragment {
+public class ProjectsFragment extends AbstractObserverFragment {
 
     public ProjectsFragment() {
 
@@ -30,5 +31,10 @@ public class ProjectsFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(5);
+    }
+
+    @Override
+    public void update(SessionModel model) {
+        Log.e("test", "updateProject");
     }
 }

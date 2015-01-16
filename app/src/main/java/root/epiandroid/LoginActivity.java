@@ -37,11 +37,9 @@ public class LoginActivity extends ActionBarActivity {
                 String login = loginText.getText().toString();
                 String pass = passwordText.getText().toString();
                 Controller.getInstance().setLogin(login);
-                PostRequest post = new PostRequest(LoginActivity.this);
-                post.execute("/login",
+                Controller.getInstance().post(LoginActivity.this, "/login",
                         "login", login,
                         "password", pass);
-
             }
         });
 

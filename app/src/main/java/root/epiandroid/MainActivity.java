@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import root.epiandroid.mainfragment.AbstractObserverFragment;
 import root.epiandroid.mainfragment.ModulesFragment;
 import root.epiandroid.mainfragment.PlanningFragment;
 import root.epiandroid.mainfragment.ProfilFragment;
@@ -132,9 +133,9 @@ public class MainActivity extends ActionBarActivity
     }
 
     public static Fragment getGoodFragment(int sectionNumber) {
-        Fragment fragment = null;
+        AbstractObserverFragment fragment = null;
         try {
-            fragment = (Fragment) fragmentList[sectionNumber - 1].newInstance();
+            fragment = (AbstractObserverFragment) fragmentList[sectionNumber - 1].newInstance();
         } catch (java.lang.InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
