@@ -13,8 +13,10 @@ import java.util.List;
 
 import root.epiandroid.LoginActivity;
 import root.epiandroid.MainActivity;
-import root.epiandroid.model.Event;
-import root.epiandroid.model.Message;
+import root.epiandroid.model.object.Event;
+import root.epiandroid.model.object.Message;
+import root.epiandroid.model.object.Module;
+import root.epiandroid.model.object.Project;
 import root.epiandroid.request.GetRequest;
 import root.epiandroid.request.ImageRequest;
 import root.epiandroid.request.PostRequest;
@@ -56,7 +58,7 @@ public class RequestController {
         try {
             rootNode = mapper.readTree(str.getBytes());
         } catch (Exception e) {
-            Log.e("test", "fail get Tree");
+            Log.e("test", e.getMessage());
         }
         return rootNode;
     }
@@ -97,7 +99,7 @@ public class RequestController {
     }
 
     public void login(Context ctx, String str) {
-        Log.e("test", str);
+        System.out.println(str);
         JsonNode rootNode = getNodeTree(str);
         String token = nodeToString(rootNode, "token");
         if (token == null) {
@@ -107,6 +109,8 @@ public class RequestController {
         setToken(token);
         ProfilController.getInstance().setTokenAndLogin(_token, _login);
         PlanningController.getInstance().setTokenAndLogin(_token, _login);
+        ProjectController.getInstance().setTokenAndLogin(_token, _login);
+        ModuleController.getInstance().setTokenAndLogin(_token, _login);
         Intent intent = new Intent(ctx, MainActivity.class);
         ctx.startActivity(intent);
     }
@@ -177,5 +181,66 @@ public class RequestController {
             i = i + 1;
         }
         PlanningController.getInstance().setListEvents(listEvents);
+    }
+
+    public void getProjects(Context ctx, String str) {
+        JsonNode rootNode = getNodeTree(str);
+        if (rootNode == null) {
+            PlanningController.getInstance().setError("Impossible d'obtenir les projects");
+            return;
+        }
+        int i = 0;
+        List<Project> listProjects = new ArrayList<>();
+        JsonNode nodeProject = null;
+        while ((nodeProject = rootNode.get(i)) != null) {
+            Log.e("test", nodeProject.toString());
+            Project Project = new Project();
+            Project.setActiTitle(nodeToString(nodeProject, "acti_title"));
+            Project.setCodeActi(nodeToString(nodeProject, "codeacti"));
+            Project.setCodeInstance(nodeToString(nodeProject, "codeinstance"));
+            Project.setCodeModule(nodeToString(nodeProject, "codemodule"));
+            Project.setEnd(nodeToString(nodeProject, "end_acti"));
+            Project.setScolarYear(nodeToString(nodeProject, "scolaryear"));
+            Project.setStart(nodeToString(nodeProject, "begin_acti"));
+            Project.setTitleModule(nodeToString(nodeProject, "title_module"));
+            listProjects.add(Project);
+            i = i + 1;
+        }
+        ProjectController.getInstance().setListProjects(listProjects);
+    }
+
+    public void getModules(Context ctx, String str) {
+        Log.e("test", str);
+        if (str == null) {
+            Log.e("teest", "plop");
+            PlanningController.getInstance().setError("Impossible d'obtenir les Modules");
+            return;
+        }
+        str = str.substring(1, str.length() - 1);
+        str = str.replaceAll("modules:", "");
+        System.out.println(str);
+        JsonNode rootNode = getNodeTree(str);
+        if (rootNode == null) {
+            Log.e("teest", "plop");
+            PlanningController.getInstance().setError("Impossible d'obtenir les Modules");
+            return;
+        }
+        int i = 0;
+        List<Module> listModules = new ArrayList<>();
+        JsonNode nodeModule = null;
+        while ((nodeModule = rootNode.get(i)) != null) {
+            Log.e("test", nodeModule.toString());
+            Module Module = new Module();
+            Module.setCodeInstance(nodeToString(nodeModule, "codeinstance"));
+            Module.setCodeModule(nodeToString(nodeModule, "codemodule"));
+            Module.setScolarYear(nodeToString(nodeModule, "scolaryear"));
+            Module.setCredits(nodeToString(nodeModule, "credits"));
+            Module.setGrade(nodeToString(nodeModule, "grade"));
+            Module.setSemester(nodeToString(nodeModule, "semester"));
+            Module.setTitle(nodeToString(nodeModule, "title"));
+            listModules.add(Module);
+            i = i + 1;
+        }
+        ModuleController.getInstance().setListModules(listModules);
     }
 }

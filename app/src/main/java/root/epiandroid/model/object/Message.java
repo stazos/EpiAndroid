@@ -1,4 +1,4 @@
-package root.epiandroid.model;
+package root.epiandroid.model.object;
 
 /**
  * Created by vesy_m on 16/01/15.

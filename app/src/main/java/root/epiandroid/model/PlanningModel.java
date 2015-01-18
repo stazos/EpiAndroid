@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import root.epiandroid.model.object.Event;
 import root.epiandroid.observer.Observer;
 
 /**
@@ -49,17 +50,6 @@ public class PlanningModel extends AbstractModel {
         notifyObserver();
     }
 
-    public void initListEvent() {
-        listEvent = new ArrayList<Event>();
-    }
-
-    public void addEvent(Event event) {
-        if (listEvent == null)
-            initListEvent();
-        listEvent.add(event);
-        notifyObserver();
-    }
-
     public void delListEvent() {
         listEvent = null;
         notifyObserver();
@@ -67,6 +57,16 @@ public class PlanningModel extends AbstractModel {
 
     public List<Event> getListEvent() {
         return listEvent;
+    }
+
+    public void setListEvents(List<Event> listEvents) {
+        if (listEvent == null)
+            listEvent = new ArrayList<Event>();
+        for (Event event : listEvents) {
+            // if (event.get!nodeToString(nodeEvent, "event_registered").equals("null")) {
+            listEvent.add(event);
+        }
+        notifyObserver();
     }
 
     public String getToken() {

@@ -23,7 +23,7 @@ import root.epiandroid.MainActivity;
 import root.epiandroid.R;
 import root.epiandroid.controller.ProfilController;
 import root.epiandroid.controller.RequestController;
-import root.epiandroid.model.Message;
+import root.epiandroid.model.object.Message;
 import root.epiandroid.request.GetRequest;
 import root.epiandroid.request.ImageRequest;
 import root.epiandroid.request.PostRequest;

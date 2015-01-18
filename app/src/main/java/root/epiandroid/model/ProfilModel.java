@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import root.epiandroid.model.object.Message;
 import root.epiandroid.observer.Observer;
 
 /**
@@ -52,22 +53,21 @@ public class ProfilModel extends AbstractModel {
         notifyObserver();
     }
 
-    public void initListMessage() {
-        listMessage = new ArrayList<Message>();
+    public void delListMessages() {
+        listMessage = null;
+        notifyObserver();
     }
 
-    public void addMessage(Message msg) {
-        if (listMessage == null)
-            initListMessage();
-        listMessage.add(msg);
-    }
-
-    public List<Message> getListMessage() {
+    public List<Message> getListMessages() {
         return listMessage;
     }
 
-    public void delListMessage() {
-        listMessage = null;
+    public void setListMessages(List<Message> listMessages) {
+        if (listMessage == null)
+            listMessage = new ArrayList<Message>();
+        for (Message msg : listMessages) {
+            listMessage.add(msg);
+        }
         notifyObserver();
     }
 

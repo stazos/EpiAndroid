@@ -1,9 +1,9 @@
-package root.epiandroid.model;
+package root.epiandroid.model.object;
 
 /**
  * Created by vesy_m on 17/01/15.
  */
-public class Event {
+public class Susie {
     private String scolarYear;
     private String codeModule;
     private String codeInstance;

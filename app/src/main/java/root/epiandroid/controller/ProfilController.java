@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.util.List;
 
-import root.epiandroid.model.Message;
+import root.epiandroid.model.object.Message;
 import root.epiandroid.model.ProfilModel;
 import root.epiandroid.observer.Observer;
 
@@ -63,11 +63,7 @@ public class ProfilController {
     }
 
     public void setListMessages(List<Message> listMessages) {
-        session.initListMessage();
-        for (Message msg : listMessages) {
-            session.addMessage(msg);
-        }
-        session.notifyObserver();
+        session.setListMessages(listMessages);
     }
 
 }

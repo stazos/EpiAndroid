@@ -78,8 +78,9 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
 //                Log.e("test", arg1 + " " + arg2);
                 nameValuePair.add(new BasicNameValuePair(args.get(i).toString(), args.get(i + 1).toString()));
             }
-
-
+            for (NameValuePair pair : nameValuePair) {
+                Log.e("test", pair.getName() + " " + pair.getValue());
+            }
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
             HttpResponse response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
@@ -92,6 +93,8 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
     }
 
     protected void onPostExecute(String str) {
+        if (this.exception != null)
+            Log.e("fail", this.exception.getMessage());
         try {
             methodMap.get(route).invoke(RequestController.getInstance(), context, str);
         } catch (IllegalAccessException e) {

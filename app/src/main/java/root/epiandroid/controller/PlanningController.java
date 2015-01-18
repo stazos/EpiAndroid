@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import root.epiandroid.model.Event;
+import root.epiandroid.model.object.Event;
 import root.epiandroid.model.PlanningModel;
 import root.epiandroid.observer.Observer;
 
@@ -96,12 +96,6 @@ public class PlanningController {
     }
 
     public void setListEvents(List<Event> listEvents) {
-
-        planningModel.initListEvent();
-        for (Event event : listEvents) {
-            // if (event.get!nodeToString(nodeEvent, "event_registered").equals("null")) {
-            planningModel.addEvent(event);
-        }
-        planningModel.notifyObserver();
+        planningModel.setListEvents(listEvents);
     }
 }

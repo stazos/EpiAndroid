@@ -24,7 +24,7 @@ import root.epiandroid.MainActivity;
 import root.epiandroid.R;
 import root.epiandroid.controller.PlanningController;
 import root.epiandroid.controller.RequestController;
-import root.epiandroid.model.Event;
+import root.epiandroid.model.object.Event;
 
 /**
  * Created by vesy_m on 15/01/15.
