@@ -17,10 +17,10 @@ public abstract class AbstractModel implements Observable {
         //this.listObserver.add(obs);
     }
 
-    public void notifyObserver(SessionModel model) {
+    public void notifyObserver(Object... objs) {
         Log.e("test", "Observer Notification");
         if (observer != null)
-            observer.update(model);
+            observer.update(objs);
         //        for (Observer obs : listObserver) {
 //            Log.e("test", "Observer Notification");
 //            obs.update(model);

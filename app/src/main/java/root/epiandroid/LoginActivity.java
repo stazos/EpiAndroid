@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import root.epiandroid.controller.RequestController;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -16,7 +19,7 @@ public class LoginActivity extends ActionBarActivity {
     private ProgressBar mProgress;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("test", "------------------------------------------------");
         setContentView(R.layout.activity_login);
@@ -36,8 +39,8 @@ public class LoginActivity extends ActionBarActivity {
                 passwordText.setVisibility(View.GONE);
                 String login = loginText.getText().toString();
                 String pass = passwordText.getText().toString();
-                Controller.getInstance().setLogin(login);
-                Controller.getInstance().post(LoginActivity.this, "/login",
+                RequestController.getInstance().setLogin(login);
+                RequestController.getInstance().post(LoginActivity.this, "/login",
                         "login", login,
                         "password", pass);
             }
@@ -46,7 +49,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
         EditText loginText = (EditText) findViewById(R.id.login);
@@ -56,6 +59,12 @@ public class LoginActivity extends ActionBarActivity {
         button.setVisibility(View.VISIBLE);
         loginText.setVisibility(View.VISIBLE);
         passwordText.setVisibility(View.VISIBLE);
+    }
+
+    public void onError() {
+        onResume();
+        TextView loginText = (TextView) findViewById(R.id.login_text);
+        loginText.setVisibility(View.VISIBLE);
     }
 
     @Override

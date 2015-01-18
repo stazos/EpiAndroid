@@ -16,12 +16,10 @@ import root.epiandroid.mainfragment.ProfilFragment;
 import root.epiandroid.mainfragment.ProjectsFragment;
 import root.epiandroid.mainfragment.SusieFragment;
 import root.epiandroid.mainfragment.TokenFragment;
-import root.epiandroid.model.SessionModel;
-import root.epiandroid.observer.Observer;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, Observer {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -142,10 +140,5 @@ public class MainActivity extends ActionBarActivity
             e.printStackTrace();
         }
         return fragment;
-    }
-
-    @Override
-    public void update(SessionModel model) {
-
     }
 }

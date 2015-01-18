@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import root.epiandroid.MainActivity;
 import root.epiandroid.R;
-import root.epiandroid.model.SessionModel;
 
 /**
  * Created by vesy_m on 15/01/15.
@@ -33,6 +32,6 @@ public class SusieFragment extends AbstractObserverFragment {
     }
 
     @Override
-    public void update(SessionModel model) {
+    public void update(Object... objs) {
     }
 }

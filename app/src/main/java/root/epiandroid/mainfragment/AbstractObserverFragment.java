@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import root.epiandroid.Controller;
-import root.epiandroid.model.SessionModel;
 import root.epiandroid.observer.Observer;
 
 /**
@@ -13,12 +11,12 @@ import root.epiandroid.observer.Observer;
  */
 public class AbstractObserverFragment extends Fragment implements Observer {
     @Override
-    public void update(SessionModel model) {
+    public void update(Object... objs) {
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Controller.getInstance().addObserverToSessionModel(this);
+      //  RequestController.getInstance().addObserverToSessionModel(this);
     }
 }

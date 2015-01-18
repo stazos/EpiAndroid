@@ -1,4 +1,4 @@
-package root.epiandroid;
+package root.epiandroid.request;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import root.epiandroid.controller.RequestController;
+
 /**
  * Created by vesy_m on 13/01/15.
  */
@@ -35,7 +37,9 @@ public class GetRequest extends AsyncTask<Object, Void, String> {
         context = ctx;
         methodMap = new HashMap<String, Method>();
         try {
-            methodMap.put("/photo", Controller.class.getDeclaredMethod("getPhoto", Context.class, String.class));
+            methodMap.put("/photo", RequestController.class.getDeclaredMethod("getPhoto", Context.class, String.class));
+            methodMap.put("/messages", RequestController.class.getDeclaredMethod("getMessages", Context.class, String.class));
+            methodMap.put("/planning", RequestController.class.getDeclaredMethod("getPlanning", Context.class, String.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -74,7 +78,7 @@ public class GetRequest extends AsyncTask<Object, Void, String> {
         if (this.exception != null)
             Log.e("test", this.exception.getMessage());
         try {
-            methodMap.get(route).invoke(Controller.getInstance(), context, str);
+            methodMap.get(route).invoke(RequestController.getInstance(), context, str);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

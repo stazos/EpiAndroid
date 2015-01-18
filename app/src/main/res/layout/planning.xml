@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/planningtext"
+    <ProgressBar
+        android:id="@+id/planing_progress"
+        style="@android:style/Widget.Holo.ProgressBar.Large"
+        android:visibility="visible"
+        android:indeterminate="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="planning" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
-</LinearLayout>
+
+    <Button
+        android:id="@+id/planning_button_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="prev" />
+
+    <TextView
+        android:id="@+id/planning_text"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/planning_button_prev"
+        android:layout_toLeftOf="@+id/planning_button_next"
+        android:layout_toStartOf="@+id/planning_button_next"
+        android:layout_alignBottom="@+id/planning_button_prev"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:id="@+id/planning_button_next"
+        android:text="next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ListView
+        android:id="@+id/planning_list"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/planning_button_prev"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

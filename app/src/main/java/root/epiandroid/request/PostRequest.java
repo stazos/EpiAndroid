@@ -1,4 +1,4 @@
-package root.epiandroid;
+package root.epiandroid.request;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import root.epiandroid.controller.RequestController;
+import root.epiandroid.LoginActivity;
+
 /**
  * Created by vesy_m on 13/01/15.
  */
@@ -35,8 +38,8 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
         context = ctx;
         methodMap = new HashMap<String, Method>();
         try {
-            methodMap.put("/login", Controller.class.getDeclaredMethod("login", Context.class, String.class));
-            methodMap.put("/infos", Controller.class.getDeclaredMethod("infos", Context.class, String.class));
+            methodMap.put("/login", RequestController.class.getDeclaredMethod("login", Context.class, String.class));
+            methodMap.put("/infos:log", RequestController.class.getDeclaredMethod("getLog", Context.class, String.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -47,11 +50,14 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
             List<Object> args = new ArrayList();
             for (Object obj : objs) {
                 args.add(obj);
+                Log.e("test", args.toString());
             }
             HttpClient httpClient = new DefaultHttpClient();
 
             route = args.get(0).toString();
-            String url = "https://epitech-api.herokuapp.com" + route;
+            String[] realRoute = route.split(":");
+            String firstRoute = realRoute[0];
+            String url = "https://epitech-api.herokuapp.com" + firstRoute;
             Log.e("test", url);
             HttpPost httpPost = new HttpPost(url);
 
@@ -87,11 +93,15 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
 
     protected void onPostExecute(String str) {
         try {
-            methodMap.get(route).invoke(Controller.getInstance(), context, str);
+            methodMap.get(route).invoke(RequestController.getInstance(), context, str);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            if (context instanceof LoginActivity) {
+                ((LoginActivity) context).onError();
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 }
