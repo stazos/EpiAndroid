@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <ProgressBar
+        android:id="@+id/event_progress"
+        style="@android:style/Widget.Holo.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/event_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:gravity="center"
+        android:text="title"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/event_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:textColor="#ffcc0002"
+        android:gravity="center"
+        android:text="Impossible de ce connecter.\n Veuillez réessayer"
+        android:layout_marginTop="42dp"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/event_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valider token"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="205dp" />
+
+
+    <EditText
+        android:id="@+id/event_token"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="token"
+        android:ems="10"
+        android:layout_above="@+id/event_button"
+        android:layout_marginBottom="35dp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

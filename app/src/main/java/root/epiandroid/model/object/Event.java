@@ -1,9 +1,11 @@
 package root.epiandroid.model.object;
 
+import java.io.Serializable;
+
 /**
  * Created by vesy_m on 17/01/15.
  */
-public class Event {
+public class Event implements Serializable {
     private String scolarYear;
     private String codeModule;
     private String codeInstance;

@@ -7,21 +7,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import root.epiandroid.MainActivity;
 import root.epiandroid.R;
+import root.epiandroid.adapter.PlanningListAdapter;
 import root.epiandroid.controller.PlanningController;
 import root.epiandroid.controller.RequestController;
 import root.epiandroid.model.object.Event;
@@ -114,11 +112,11 @@ public class PlanningFragment extends AbstractObserverFragment {
         }
         if (listEvents != null) {
             ListView listview = (ListView) act.findViewById(R.id.planning_list);
-            ArrayList<String> list = new ArrayList<String>();
-            for (Event msg : listEvents) {
-                list.add(msg.getActiTitle());
-            }
-            ListAdapter adapter = new ArrayAdapter<String>(act, android.R.layout.simple_list_item_1, list);
+//            ArrayList<String> list = new ArrayList<String>();
+//            for (Event msg : listEvents) {
+//                list.add(msg.getActiTitle());
+//            }
+            PlanningListAdapter adapter = new PlanningListAdapter(act, R.layout.planning_list_row, listEvents);
             listview.setAdapter(adapter);
 
             TextView planningText = (TextView) act.findViewById(R.id.planning_text);

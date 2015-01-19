@@ -74,7 +74,7 @@ public class RequestController {
             if (tmp == null)
                 return null;
         }
-        String returnString = tmp.toString();
+        String returnString = tmp.asText();
         if (returnString.startsWith("\"") && returnString.endsWith("\"") && returnString.length() > 1)
             returnString = returnString.substring(1, returnString.length() - 1);
         return returnString;
