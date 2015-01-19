@@ -4,11 +4,45 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/planning_row_date"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="date"
+        android:gravity="center"
+        android:textColor="@color/background_floating_material_light"
+        android:background="@color/background_floating_material_dark" />
+
+    <TextView
         android:id="@+id/planning_row_title"
         android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="toto"
-        android:gravity="center" />
+        android:text="title"
+        android:layout_below="@+id/planning_row_date"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/planning_row_salle"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="salle"
+        android:layout_below="@+id/planning_row_title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/planning_row_hour"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hour"
+        android:textColor="#ffcc0002"
+        android:layout_alignTop="@+id/planning_row_salle"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

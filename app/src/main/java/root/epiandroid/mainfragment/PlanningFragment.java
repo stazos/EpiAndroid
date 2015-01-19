@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -111,6 +113,15 @@ public class PlanningFragment extends AbstractObserverFragment {
             RequestController.getInstance().get(act, "/planning", "token", token, "start", dateStart, "end", dateEnd);
         }
         if (listEvents != null) {
+
+            Collections.sort(listEvents, new Comparator<Event>() {
+                public int compare(Event e1, Event e2) {
+                    if (e1.getStart() == null || e2.getStart() == null)
+                        return 0;
+                    return e1.getStart().compareTo(e2.getStart());
+                }
+            });
+
             ListView listview = (ListView) act.findViewById(R.id.planning_list);
 //            ArrayList<String> list = new ArrayList<String>();
 //            for (Event msg : listEvents) {

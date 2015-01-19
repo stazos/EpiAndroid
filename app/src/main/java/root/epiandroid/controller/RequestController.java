@@ -8,7 +8,10 @@ import android.util.Log;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import root.epiandroid.LoginActivity;
@@ -172,10 +175,31 @@ public class RequestController {
                 event.setCodeEvent(nodeToString(nodeEvent, "codeevent"));
                 event.setCodeInstance(nodeToString(nodeEvent, "codeinstance"));
                 event.setCodeModule(nodeToString(nodeEvent, "codemodule"));
-                event.setEnd(nodeToString(nodeEvent, "end"));
-                event.setSalle(nodeToString(nodeEvent, "room", "code"));
+                String endDate = nodeToString(nodeEvent, "end");
+                String startDate = nodeToString(nodeEvent, "start");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date dStart = null;
+                Date dEnd = null;
+                try {
+                    dStart = format.parse(startDate);
+                } catch (ParseException e) {
+                    dStart = null;
+                }
+                try {
+                    dEnd = format.parse(endDate);
+                } catch (ParseException e) {
+                    dEnd = null;
+                }
+                event.setEnd(dEnd);
+                event.setStart(dStart);
+                String salleTmp = nodeToString(nodeEvent, "room", "code");
+                if (salleTmp == null)
+                    event.setSalle(null);
+                else {
+                    int index = salleTmp.lastIndexOf("/") + 1;
+                    event.setSalle(salleTmp.substring(index, salleTmp.length()));
+                }
                 event.setScolarYear(nodeToString(nodeEvent, "scolaryear"));
-                event.setStart(nodeToString(nodeEvent, "start"));
                 listEvents.add(event);
             }
             i = i + 1;

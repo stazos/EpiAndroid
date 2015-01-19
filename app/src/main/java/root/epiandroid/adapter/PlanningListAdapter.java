@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import root.epiandroid.EventActivity;
@@ -43,9 +44,20 @@ public class PlanningListAdapter extends ArrayAdapter<Event> {
         final Event event = getItem(position);
 
         if (event != null) {
+            SimpleDateFormat formatDate = new SimpleDateFormat("EEEE d MMM");
+            SimpleDateFormat formatHour = new SimpleDateFormat("HH:mm");
 
-            TextView title = (TextView) v.findViewById(R.id.planning_row_title); // title
+            TextView title = (TextView) v.findViewById(R.id.planning_row_title);
             title.setText(event.getActiTitle());
+
+            TextView date = (TextView) v.findViewById(R.id.planning_row_date);
+            date.setText(formatDate.format(event.getStart()));
+
+            TextView salle = (TextView) v.findViewById(R.id.planning_row_salle);
+            salle.setText(event.getSalle());
+
+            TextView hour = (TextView) v.findViewById(R.id.planning_row_hour);
+            hour.setText(formatHour.format(event.getStart()));
         }
         v.setOnClickListener(new View.OnClickListener() {
             @Override
