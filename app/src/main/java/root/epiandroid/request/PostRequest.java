@@ -93,6 +93,7 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
     }
 
     protected void onPostExecute(String str) {
+        RequestController.getInstance().endRequest(this);
         if (this.exception != null)
             Log.e("fail", this.exception.getMessage());
         try {

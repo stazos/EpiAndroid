@@ -77,6 +77,7 @@ public class GetRequest extends AsyncTask<Object, Void, String> {
     }
 
     protected void onPostExecute(String str) {
+        RequestController.getInstance().endRequest(this);
         if (this.exception != null)
             Log.e("test", this.exception.getMessage());
         try {

@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import root.epiandroid.controller.RequestController;
 import root.epiandroid.mainfragment.AbstractObserverFragment;
 import root.epiandroid.mainfragment.ModulesFragment;
 import root.epiandroid.mainfragment.PlanningFragment;
@@ -65,6 +66,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+        RequestController.getInstance().stopAllRequest();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, getGoodFragment(position + 1))

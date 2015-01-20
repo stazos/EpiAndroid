@@ -36,12 +36,15 @@ public class PlanningModel extends AbstractModel {
     }
 
     public PlanningModel() {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        currentMonday = c.getTime();
+
     }
 
     public Date getCurrentMonday() {
+        if (currentMonday == null) {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            currentMonday = c.getTime();
+        }
         return currentMonday;
     }
 
@@ -92,6 +95,6 @@ public class PlanningModel extends AbstractModel {
     }
 
     public void notifyObserver() {
-        super.notifyObserver(error, token, login, currentMonday, listEvent);
+        super.notifyObserver(error, token, login, getCurrentMonday(), listEvent);
     }
 }

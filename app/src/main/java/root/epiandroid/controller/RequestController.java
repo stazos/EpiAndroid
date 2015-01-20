@@ -3,15 +3,13 @@ package root.epiandroid.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import root.epiandroid.LoginActivity;
@@ -38,6 +36,8 @@ public class RequestController {
     public static RequestController getInstance() {
         return INSTANCE;
     }
+
+    private List<AsyncTask> listLoadingReq = new ArrayList<>();
 
     public final static String EXTRA_MESSAGE = "root.epiandroid.LoginActivity";
 
@@ -83,21 +83,36 @@ public class RequestController {
         return returnString;
     }
 
+    public void stopAllRequest() {
+        for (AsyncTask req : listLoadingReq) {
+            req.cancel(true);
+            Log.e("test", "stop request");
+        }
+        listLoadingReq.clear();
+    }
+
+    public void endRequest(AsyncTask req) {
+        listLoadingReq.remove(req);
+    }
+
     public ImageRequest image(String url) {
         ImageRequest req = new ImageRequest(url);
         req.execute();
+        listLoadingReq.add(req);
         return req;
     }
 
     public PostRequest post(Context ctx, Object... objs) {
         PostRequest post = new PostRequest(ctx);
         post.execute(objs);
+        listLoadingReq.add(post);
         return post;
     }
 
     public GetRequest get(Context ctx, Object... objs) {
         GetRequest get = new GetRequest(ctx);
         get.execute(objs);
+        listLoadingReq.add(get);
         return get;
     }
 
@@ -158,7 +173,9 @@ public class RequestController {
     }
 
     public void getPlanning(Context ctx, String str) {
+        System.out.println(str);
         JsonNode rootNode = getNodeTree(str);
+        //rootNode = null;
         if (rootNode == null) {
             PlanningController.getInstance().setError("Impossible d'obtenir les evenements");
             return;
@@ -175,31 +192,14 @@ public class RequestController {
                 event.setCodeEvent(nodeToString(nodeEvent, "codeevent"));
                 event.setCodeInstance(nodeToString(nodeEvent, "codeinstance"));
                 event.setCodeModule(nodeToString(nodeEvent, "codemodule"));
-                String endDate = nodeToString(nodeEvent, "end");
-                String startDate = nodeToString(nodeEvent, "start");
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date dStart = null;
-                Date dEnd = null;
-                try {
-                    dStart = format.parse(startDate);
-                } catch (ParseException e) {
-                    dStart = null;
-                }
-                try {
-                    dEnd = format.parse(endDate);
-                } catch (ParseException e) {
-                    dEnd = null;
-                }
-                event.setEnd(dEnd);
-                event.setStart(dStart);
-                String salleTmp = nodeToString(nodeEvent, "room", "code");
-                if (salleTmp == null)
-                    event.setSalle(null);
-                else {
-                    int index = salleTmp.lastIndexOf("/") + 1;
-                    event.setSalle(salleTmp.substring(index, salleTmp.length()));
-                }
+                event.setStart(nodeToString(nodeEvent, "start"));
+                event.setEnd(nodeToString(nodeEvent, "end"));
+                event.setSalle(nodeToString(nodeEvent, "room", "code"));
                 event.setScolarYear(nodeToString(nodeEvent, "scolaryear"));
+                event.setTitleModule(nodeToString(nodeEvent, "titlemodule"));
+                event.setAllowToken(nodeToString(nodeEvent, "allow_token"));
+                event.setDuree(nodeToString(nodeEvent, "nb_hours"));
+                event.setRegistered(nodeToString(nodeEvent, "event_registered"));
                 listEvents.add(event);
             }
             i = i + 1;

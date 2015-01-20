@@ -42,25 +42,76 @@ public class PlanningFragment extends AbstractObserverFragment {
         return rootView;
     }
 
+    public void displayContent() {
+        Activity act = getActivity();
+        ProgressBar bar = (ProgressBar) act.findViewById(R.id.planning_progress);
+        TextView planningErrorText = (TextView) act.findViewById(R.id.planning_error_text);
+        Button errorButton = (Button) act.findViewById(R.id.planning_reload);
+        Button prevButton = (Button) act.findViewById(R.id.planning_button_prev);
+        TextView planningText = (TextView) act.findViewById(R.id.planning_text);
+        Button nextButton = (Button) act.findViewById(R.id.planning_button_next);
+        ListView listview = (ListView) act.findViewById(R.id.planning_list);
+        bar.setVisibility(View.INVISIBLE);
+        planningErrorText.setVisibility(View.INVISIBLE);
+        errorButton.setVisibility(View.INVISIBLE);
+        prevButton.setVisibility(View.VISIBLE);
+        planningText.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.VISIBLE);
+        listview.setVisibility(View.VISIBLE);
+    }
+
+    public void displayLoading() {
+        Activity act = getActivity();
+        ProgressBar bar = (ProgressBar) act.findViewById(R.id.planning_progress);
+        TextView planningErrorText = (TextView) act.findViewById(R.id.planning_error_text);
+        Button errorButton = (Button) act.findViewById(R.id.planning_reload);
+        Button prevButton = (Button) act.findViewById(R.id.planning_button_prev);
+        TextView planningText = (TextView) act.findViewById(R.id.planning_text);
+        Button nextButton = (Button) act.findViewById(R.id.planning_button_next);
+        ListView listview = (ListView) act.findViewById(R.id.planning_list);
+        bar.setVisibility(View.VISIBLE);
+        planningErrorText.setVisibility(View.INVISIBLE);
+        errorButton.setVisibility(View.INVISIBLE);
+        prevButton.setVisibility(View.INVISIBLE);
+        planningText.setVisibility(View.INVISIBLE);
+        nextButton.setVisibility(View.INVISIBLE);
+        listview.setVisibility(View.INVISIBLE);
+    }
+
+    public void displayError() {
+        Activity act = getActivity();
+        ProgressBar bar = (ProgressBar) act.findViewById(R.id.planning_progress);
+        TextView planningErrorText = (TextView) act.findViewById(R.id.planning_error_text);
+        Button errorButton = (Button) act.findViewById(R.id.planning_reload);
+        Button prevButton = (Button) act.findViewById(R.id.planning_button_prev);
+        TextView planningText = (TextView) act.findViewById(R.id.planning_text);
+        Button nextButton = (Button) act.findViewById(R.id.planning_button_next);
+        ListView listview = (ListView) act.findViewById(R.id.planning_list);
+        bar.setVisibility(View.INVISIBLE);
+        planningErrorText.setVisibility(View.VISIBLE);
+        errorButton.setVisibility(View.VISIBLE);
+        prevButton.setVisibility(View.INVISIBLE);
+        planningText.setVisibility(View.INVISIBLE);
+        nextButton.setVisibility(View.INVISIBLE);
+        listview.setVisibility(View.INVISIBLE);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        displayLoading();
         PlanningController.getInstance().addObserver(this);
         Activity act = getActivity();
         Button prevButton = (Button) act.findViewById(R.id.planning_button_prev);
         Button nextButton = (Button) act.findViewById(R.id.planning_button_next);
+        Button reloadButton = (Button) act.findViewById(R.id.planning_reload);
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Activity act = getActivity();
                 Date prevMonday = PlanningController.getInstance().getPrevMonday();
-                ProgressBar bar = (ProgressBar) act.findViewById(R.id.planing_progress);
-                ListView listview = (ListView) act.findViewById(R.id.planning_list);
-                TextView planningText = (TextView) act.findViewById(R.id.planning_text);
                 PlanningController.getInstance().setCurrentMonday(prevMonday);
-                listview.setVisibility(View.INVISIBLE);
-                planningText.setVisibility(View.INVISIBLE);
-                bar.setVisibility(View.VISIBLE);
+                displayLoading();
                 PlanningController.getInstance().clearListEvent();
             }
         });
@@ -69,14 +120,16 @@ public class PlanningFragment extends AbstractObserverFragment {
             public void onClick(View v) {
                 Activity act = getActivity();
                 Date newMonday = PlanningController.getInstance().getNextMonday();
-                ProgressBar bar = (ProgressBar) act.findViewById(R.id.planing_progress);
-                ListView listview = (ListView) act.findViewById(R.id.planning_list);
-                TextView planningText = (TextView) act.findViewById(R.id.planning_text);
                 PlanningController.getInstance().setCurrentMonday(newMonday);
-                listview.setVisibility(View.INVISIBLE);
-                planningText.setVisibility(View.INVISIBLE);
-                bar.setVisibility(View.VISIBLE);
+                displayLoading();
                 PlanningController.getInstance().clearListEvent();
+            }
+        });
+        reloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayLoading();
+                PlanningController.getInstance().planninReload();
             }
         });
     }
@@ -95,49 +148,50 @@ public class PlanningFragment extends AbstractObserverFragment {
         String login = (String) listArgs[2];
         Date currentMonday = (Date) listArgs[3];
         List<Event> listEvents = (List<Event>) listArgs[4];
-
         Log.e("test", "updatePlanning");
         Activity act = getActivity();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateStart = sdf.format(currentMonday);
-        Log.e("test", dateStart);
+        if (error != null) {
+            RequestController.getInstance().stopAllRequest();
+            TextView planningErrorText = (TextView) act.findViewById(R.id.planning_error_text);
+            planningErrorText.setText(error);
+            displayError();
+        } else {
+            if (listEvents == null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String dateStart = sdf.format(currentMonday);
+                Log.e("test", dateStart);
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(currentMonday);
-        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        String dateEnd = sdf.format(c.getTime());
-        Log.e("test", dateEnd);
+                Calendar c = Calendar.getInstance();
+                c.setTime(currentMonday);
+                c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                String dateEnd = sdf.format(c.getTime());
+                Log.e("test", dateEnd);
+                RequestController.getInstance().get(act, "/planning", "token", token, "start", dateStart, "end", dateEnd);
+            }
+            if (listEvents != null) {
+                System.out.println("iaiaiaiaiaiaaiaiaaiaiaiaiaiiaiaiaiaiaiaiaiaiaiaiaiai");
+                Collections.sort(listEvents, new Comparator<Event>() {
+                    public int compare(Event e1, Event e2) {
+                        if (e1.getStart() == null || e2.getStart() == null)
+                            return 0;
+                        return e1.getStart().compareTo(e2.getStart());
+                    }
+                });
 
-        if (listEvents == null) {
-            RequestController.getInstance().get(act, "/planning", "token", token, "start", dateStart, "end", dateEnd);
-        }
-        if (listEvents != null) {
+                ListView listview = (ListView) act.findViewById(R.id.planning_list);
 
-            Collections.sort(listEvents, new Comparator<Event>() {
-                public int compare(Event e1, Event e2) {
-                    if (e1.getStart() == null || e2.getStart() == null)
-                        return 0;
-                    return e1.getStart().compareTo(e2.getStart());
-                }
-            });
+                System.out.println("iaiaiaiaiaiaaiaiaaiaiaiaiaiiaiaiaiaiaiaiaiaiaiaiaiai");
+                PlanningListAdapter adapter = new PlanningListAdapter(act, R.layout.planning_list_row, listEvents);
+                listview.setAdapter(adapter);
 
-            ListView listview = (ListView) act.findViewById(R.id.planning_list);
-//            ArrayList<String> list = new ArrayList<String>();
-//            for (Event msg : listEvents) {
-//                list.add(msg.getActiTitle());
-//            }
-            PlanningListAdapter adapter = new PlanningListAdapter(act, R.layout.planning_list_row, listEvents);
-            listview.setAdapter(adapter);
+                TextView planningText = (TextView) act.findViewById(R.id.planning_text);
+                planningText.setText(PlanningController.getInstance().getWeekString());
 
-            TextView planningText = (TextView) act.findViewById(R.id.planning_text);
-            planningText.setText(PlanningController.getInstance().getWeekString());
+                displayContent();
+                System.out.println("ioioioioioioioioioioioioioioioiooioioioiooioioioioioio");
 
-            ProgressBar bar = (ProgressBar) act.findViewById(R.id.planing_progress);
-            bar.setVisibility(View.INVISIBLE);
-            listview.setVisibility(View.VISIBLE);
-            planningText.setVisibility(View.VISIBLE);
-
+            }
         }
 
     }

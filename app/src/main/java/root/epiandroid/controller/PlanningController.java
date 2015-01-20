@@ -37,7 +37,7 @@ public class PlanningController {
     }
 
     public void setError(String error) {
-        planningModel.setError("Impossible d'obtenir la photo de profil");
+        planningModel.setError(error);
     }
 
     public void clearListEvent() {

@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/planing_progress"
+        android:id="@+id/planning_progress"
         style="@android:style/Widget.Holo.ProgressBar.Large"
         android:visibility="visible"
         android:indeterminate="true"
@@ -13,6 +13,23 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
+    <TextView
+        android:id="@+id/planning_error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:text="error"
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/planning_reload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:text="Reload"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
     <Button
         android:id="@+id/planning_button_prev"
@@ -44,8 +61,8 @@
     <ListView
         android:id="@+id/planning_list"
         android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_below="@+id/planning_button_prev"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

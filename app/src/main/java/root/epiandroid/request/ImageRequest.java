@@ -41,6 +41,7 @@ public class ImageRequest extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
+        RequestController.getInstance().endRequest(this);
         RequestController.getInstance().setPicture(result);
     }
 

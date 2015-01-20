@@ -17,7 +17,7 @@
         android:id="@+id/profil_error_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:text="error"
         android:gravity="center"
         android:layout_centerHorizontal="true"
@@ -27,7 +27,7 @@
         android:id="@+id/profil_reload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:text="Reload"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
@@ -37,13 +37,13 @@
         android:id="@+id/profil_image"
         android:layout_width="150dp"
         android:layout_height="200dp"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/profil_login_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:text="login"
         android:layout_marginTop="42dp"
         android:layout_alignParentTop="true"
@@ -54,7 +54,7 @@
         android:id="@+id/profil_log_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:text="log:"
         android:layout_marginTop="37dp"
         android:layout_below="@+id/profil_login_text"
@@ -66,6 +66,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/profil_progress"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
 </RelativeLayout>
