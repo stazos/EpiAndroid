@@ -13,37 +13,37 @@ import java.util.List;
 
 import root.epiandroid.MainActivity;
 import root.epiandroid.R;
-import root.epiandroid.adapter.ProjectListAdapter;
-import root.epiandroid.controller.ProjectController;
+import root.epiandroid.adapter.NoteListAdapter;
+import root.epiandroid.controller.NoteController;
 import root.epiandroid.controller.RequestController;
-import root.epiandroid.model.object.Project;
+import root.epiandroid.model.object.Note;
 
 /**
  * Created by vesy_m on 15/01/15.
  */
-public class ProjectsFragment extends AbstractObserverFragment {
+public class NotesFragment extends AbstractObserverFragment {
 
-    public ProjectsFragment() {
+    public NotesFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.projects, container, false);
+        View rootView = inflater.inflate(R.layout.notes, container, false);
         return rootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ProjectController.getInstance().addObserver(this);
+        NoteController.getInstance().addObserver(this);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(5);
+        ((MainActivity) activity).onSectionAttached(3);
     }
 
     @Override
@@ -52,19 +52,19 @@ public class ProjectsFragment extends AbstractObserverFragment {
         String error = (String) listArgs[0];
         String token = (String) listArgs[1];
         String login = (String) listArgs[2];
-        List<Project> listProjects = (List<Project>) listArgs[3];
+        List<Note> listNotes = (List<Note>) listArgs[3];
         Activity act = getActivity();
 
-        if (listProjects == null) {
-            RequestController.getInstance().get(act, "/projects", "token", token);
+        if (listNotes == null) {
+            RequestController.getInstance().get(act, "/marks", "token", token);
         }
-        if (listProjects != null) {
-            ListView listview = (ListView) act.findViewById(R.id.projects_list);
+        if (listNotes != null) {
+            ListView listview = (ListView) act.findViewById(R.id.notes_list);
 
-            ProjectListAdapter adapter = new ProjectListAdapter(act, R.layout.project_list_row, listProjects);
+            NoteListAdapter adapter = new NoteListAdapter(act, R.layout.note_list_row, listNotes);
             listview.setAdapter(adapter);
 
-            ProgressBar bar = (ProgressBar) act.findViewById(R.id.project_progress);
+            ProgressBar bar = (ProgressBar) act.findViewById(R.id.notes_progress);
             bar.setVisibility(View.INVISIBLE);
 
             listview.setVisibility(View.VISIBLE);

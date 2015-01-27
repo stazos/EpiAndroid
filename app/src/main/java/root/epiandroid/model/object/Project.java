@@ -10,8 +10,17 @@ public class Project {
     private String codeActi;
     private String actiTitle;
     private String titleModule;
+    private String registered;
     private String start;
     private String end;
+
+    public String getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(String registered) {
+        this.registered = registered;
+    }
 
     public String getTitleModule() {
         return titleModule;

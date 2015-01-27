@@ -12,11 +12,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import root.epiandroid.EventActivity;
 import root.epiandroid.LoginActivity;
 import root.epiandroid.MainActivity;
 import root.epiandroid.model.object.Event;
 import root.epiandroid.model.object.Message;
 import root.epiandroid.model.object.Module;
+import root.epiandroid.model.object.Note;
 import root.epiandroid.model.object.Project;
 import root.epiandroid.request.GetRequest;
 import root.epiandroid.request.ImageRequest;
@@ -44,6 +46,24 @@ public class RequestController {
     private String _login;
 
     private String _token;
+
+    private EventActivity eAct;
+
+    public EventActivity geteAct() {
+        return eAct;
+    }
+
+    public void seteAct(EventActivity eAct) {
+        this.eAct = eAct;
+    }
+
+    public String get_login() {
+        return _login;
+    }
+
+    public String get_token() {
+        return _token;
+    }
 
     public void setToken(String newToken) {
         _token = newToken;
@@ -127,6 +147,7 @@ public class RequestController {
         setToken(token);
         ProfilController.getInstance().setTokenAndLogin(_token, _login);
         PlanningController.getInstance().setTokenAndLogin(_token, _login);
+        NoteController.getInstance().setTokenAndLogin(_token, _login);
         ProjectController.getInstance().setTokenAndLogin(_token, _login);
         ModuleController.getInstance().setTokenAndLogin(_token, _login);
         Intent intent = new Intent(ctx, MainActivity.class);
@@ -147,6 +168,12 @@ public class RequestController {
         JsonNode rootNode = getNodeTree(str);
         String log = nodeToString(rootNode, "current", "active_log");
         ProfilController.getInstance().setLogTime(log);
+        ProfilController.getInstance().setTitle(nodeToString(rootNode, "infos", "title"));
+        ProfilController.getInstance().setCurrentCredit(nodeToString(rootNode, "current", "achieved"));
+        ProfilController.getInstance().setFailCredit(nodeToString(rootNode, "current", "failed"));
+        ProfilController.getInstance().setInProgressCredit(nodeToString(rootNode, "current", "inprogress"));
+        ProfilController.getInstance().setSemesterNum(nodeToString(rootNode, "current", "semester_num"));
+        ProfilController.getInstance().setPromo(nodeToString(rootNode, "infos", "promo"));
     }
 
     public void getMessages(Context ctx, String str) {
@@ -161,8 +188,8 @@ public class RequestController {
         while ((nodeMessage = rootNode.get(i)) != null) {
             Log.e("test", nodeMessage.toString());
             Message msg = new Message();
-            msg.setTitle(nodeToString(nodeMessage, "title"));
-            msg.setContent(nodeToString(nodeMessage, "content"));
+            msg.setTitle(android.text.Html.fromHtml(nodeToString(nodeMessage, "title")).toString());
+            msg.setContent(android.text.Html.fromHtml(nodeToString(nodeMessage, "content")).toString());
             msg.setDate(nodeToString(nodeMessage, "date"));
             msg.setUserLabel(nodeToString(nodeMessage, "user", "title"));
             msg.setUserPicture(nodeToString(nodeMessage, "user", "picture"));
@@ -185,26 +212,58 @@ public class RequestController {
         JsonNode nodeEvent = null;
         while ((nodeEvent = rootNode.get(i)) != null) {
             Log.e("test", nodeEvent.toString());
-            if (!nodeToString(nodeEvent, "event_registered").equals("null")) {
-                Event event = new Event();
-                event.setActiTitle(nodeToString(nodeEvent, "acti_title"));
-                event.setCodeActi(nodeToString(nodeEvent, "codeacti"));
-                event.setCodeEvent(nodeToString(nodeEvent, "codeevent"));
-                event.setCodeInstance(nodeToString(nodeEvent, "codeinstance"));
-                event.setCodeModule(nodeToString(nodeEvent, "codemodule"));
-                event.setStart(nodeToString(nodeEvent, "start"));
-                event.setEnd(nodeToString(nodeEvent, "end"));
-                event.setSalle(nodeToString(nodeEvent, "room", "code"));
-                event.setScolarYear(nodeToString(nodeEvent, "scolaryear"));
-                event.setTitleModule(nodeToString(nodeEvent, "titlemodule"));
-                event.setAllowToken(nodeToString(nodeEvent, "allow_token"));
-                event.setDuree(nodeToString(nodeEvent, "nb_hours"));
-                event.setRegistered(nodeToString(nodeEvent, "event_registered"));
-                listEvents.add(event);
-            }
+            Event event = new Event();
+            event.setActiTitle(nodeToString(nodeEvent, "acti_title"));
+            event.setCodeActi(nodeToString(nodeEvent, "codeacti"));
+            event.setCodeEvent(nodeToString(nodeEvent, "codeevent"));
+            event.setCodeInstance(nodeToString(nodeEvent, "codeinstance"));
+            event.setCodeModule(nodeToString(nodeEvent, "codemodule"));
+            event.setStart(nodeToString(nodeEvent, "start"));
+            event.setEnd(nodeToString(nodeEvent, "end"));
+            event.setSalle(nodeToString(nodeEvent, "room", "code"));
+            event.setScolarYear(nodeToString(nodeEvent, "scolaryear"));
+            event.setTitleModule(nodeToString(nodeEvent, "titlemodule"));
+            event.setAllowToken(nodeToString(nodeEvent, "allow_token"));
+            event.setDuree(nodeToString(nodeEvent, "nb_hours"));
+            event.setRegistered(nodeToString(nodeEvent, "event_registered"));
+            listEvents.add(event);
             i = i + 1;
         }
         PlanningController.getInstance().setListEvents(listEvents);
+    }
+
+    public void getNotes(Context ctx, String str) {
+        Log.e("test", str);
+        if (str == null) {
+            Log.e("teest", "plop");
+            PlanningController.getInstance().setError("Impossible d'obtenir les Notes");
+            return;
+        }
+        str = str.substring(1, str.length() - 1);
+        str = str.replaceAll("notes:", "");
+        System.out.println(str);
+        JsonNode rootNode = getNodeTree(str);
+        if (rootNode == null) {
+            Log.e("teest", "plop");
+            PlanningController.getInstance().setError("Impossible d'obtenir les Notes");
+            return;
+        }
+        int i = 0;
+        List<Note> listNotes = new ArrayList<>();
+        JsonNode nodeNote = null;
+        while ((nodeNote = rootNode.get(i)) != null) {
+            Log.e("test", nodeNote.toString());
+            Note Note = new Note();
+            Note.setTitle(nodeToString(nodeNote, "title"));
+            Note.setComment(nodeToString(nodeNote, "comment"));
+            Note.setCorrecteur(nodeToString(nodeNote, "correcteur"));
+            Note.setDate(nodeToString(nodeNote, "date"));
+            Note.setFinal_note(nodeToString(nodeNote, "final_note"));
+            Note.setTitlemodule(nodeToString(nodeNote, "titlemodule"));
+            listNotes.add(Note);
+            i = i + 1;
+        }
+        NoteController.getInstance().setListNotes(listNotes);
     }
 
     public void getProjects(Context ctx, String str) {
@@ -226,6 +285,7 @@ public class RequestController {
             Project.setEnd(nodeToString(nodeProject, "end_acti"));
             Project.setScolarYear(nodeToString(nodeProject, "scolaryear"));
             Project.setStart(nodeToString(nodeProject, "begin_acti"));
+            Project.setRegistered(nodeToString(nodeProject, "registered"));
             Project.setTitleModule(nodeToString(nodeProject, "title_module"));
             listProjects.add(Project);
             i = i + 1;
@@ -266,5 +326,9 @@ public class RequestController {
             i = i + 1;
         }
         ModuleController.getInstance().setListModules(listModules);
+    }
+
+    public void tokenResponse(Context ctx, String str) {
+        geteAct().onTokenResponse(str);
     }
 }

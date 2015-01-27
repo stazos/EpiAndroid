@@ -67,7 +67,7 @@ public class PlanningListAdapter extends ArrayAdapter<Event> {
             date.setText(currentDate);
 
             TextView title = (TextView) v.findViewById(R.id.planning_row_title);
-            title.setText(event.getTitleModule() + "\n" + event.getActiTitle() + "\n" + event.getAllowToken() + "\n" + event.getRegistered());
+            title.setText(event.getActiTitle() + "\n" + event.getTitleModule());
 
             TextView salle = (TextView) v.findViewById(R.id.planning_row_salle);
             salle.setText(event.getSalle());
@@ -88,6 +88,16 @@ public class PlanningListAdapter extends ArrayAdapter<Event> {
             if (listPosWithNoDate.contains(position)) {
                 date.setVisibility(View.GONE);
             }
+
+            if (event.getRegistered().equals("null"))
+                v.setBackgroundColor(getContext().getResources().getColor(R.color.background_material_light));
+            else if (event.getRegistered().equals("present"))
+                v.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+            else if (event.getAllowToken().equals("true"))
+                v.setBackgroundColor(getContext().getResources().getColor(R.color.orange));
+            else if (event.getRegistered().equals("registered"))
+                v.setBackgroundColor(getContext().getResources().getColor(R.color.blue));
+
         }
         v.setOnClickListener(new View.OnClickListener() {
             @Override

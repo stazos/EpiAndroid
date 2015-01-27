@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/module_option_tout"
+        android:title="Tout"></item>
+    <item
+        android:id="@+id/module_option_mon_semestre"
+        android:title="Mon semestre"></item>
+    <item
+        android:id="@+id/module_option_en_cour"
+        android:title="En cour"></item>
+    <item
+        android:id="@+id/module_option_acquis"
+        android:title="Acquis"></item>
+    <item
+        android:id="@+id/module_option_echec"
+        android:title="Echec"></item>
+</menu>

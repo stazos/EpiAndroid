@@ -3,42 +3,42 @@ package root.epiandroid.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import root.epiandroid.model.object.Project;
+import root.epiandroid.model.object.Note;
 import root.epiandroid.observer.Observer;
 
 /**
  * Created by vesy_m on 15/01/15.
  */
-public class SusieModel extends AbstractModel {
+public class NoteModel extends AbstractModel {
 
     private String error = null;
     private String token = null;
     private String login = null;
-    private List<Project> listProject = null;
+    private List<Note> listNote = null;
 
     public void reload() {
         error = null;
-        listProject = null;
+        listNote = null;
         notifyObserver();
     }
 
-    public SusieModel() {
+    public NoteModel() {
     }
 
-    public void delListProjects() {
-        listProject = null;
+    public void delListNotes() {
+        listNote = null;
         notifyObserver();
     }
 
-    public List<Project> getListProjects() {
-        return listProject;
+    public List<Note> getListNotes() {
+        return listNote;
     }
 
-    public void setListProjects(List<Project> listProjects) {
-        if (listProject == null)
-            listProject = new ArrayList<Project>();
-        for (Project project : listProjects) {
-            listProject.add(project);
+    public void setListNotes(List<Note> listNotes) {
+        if (listNote == null)
+            listNote = new ArrayList<Note>();
+        for (Note Note : listNotes) {
+            listNote.add(Note);
         }
         notifyObserver();
     }
@@ -77,6 +77,6 @@ public class SusieModel extends AbstractModel {
     }
 
     public void notifyObserver() {
-        super.notifyObserver(error, token, login, listProject);
+        super.notifyObserver(error, token, login, listNote);
     }
 }

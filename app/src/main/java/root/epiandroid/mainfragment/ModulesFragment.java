@@ -4,18 +4,19 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import root.epiandroid.MainActivity;
 import root.epiandroid.R;
+import root.epiandroid.adapter.ModuleListAdapter;
 import root.epiandroid.controller.ModuleController;
 import root.epiandroid.controller.RequestController;
 import root.epiandroid.model.object.Module;
@@ -48,6 +49,75 @@ public class ModulesFragment extends AbstractObserverFragment {
         ((MainActivity) activity).onSectionAttached(4);
     }
 
+    public void displayLoading() {
+        Activity act = getActivity();
+        ListView listview = (ListView) act.findViewById(R.id.modules_list);
+        ProgressBar bar = (ProgressBar) act.findViewById(R.id.module_progress);
+
+        listview.setVisibility(View.INVISIBLE);
+        bar.setVisibility(View.VISIBLE);
+    }
+
+    public void displayContent() {
+        Activity act = getActivity();
+        ListView listview = (ListView) act.findViewById(R.id.modules_list);
+        ProgressBar bar = (ProgressBar) act.findViewById(R.id.module_progress);
+
+        bar.setVisibility(View.INVISIBLE);
+        listview.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.reload_menu, menu);
+        inflater.inflate(R.menu.module_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reload_option_menu:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ModuleController.getInstance().ModuleReload();
+                return true;
+            case R.id.module_option_tout:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ModuleController.getInstance().setFilter(0);
+                return true;
+            case R.id.module_option_mon_semestre:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ModuleController.getInstance().setFilter(1);
+                return true;
+            case R.id.module_option_en_cour:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ModuleController.getInstance().setFilter(2);
+                return true;
+            case R.id.module_option_acquis:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ModuleController.getInstance().setFilter(3);
+                return true;
+            case R.id.module_option_echec:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ModuleController.getInstance().setFilter(4);
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public void update(Object... objs) {
         Object[] listArgs = objs.clone();
@@ -62,17 +132,11 @@ public class ModulesFragment extends AbstractObserverFragment {
         }
         if (listModules != null) {
             ListView listview = (ListView) act.findViewById(R.id.modules_list);
-            ArrayList<String> list = new ArrayList<String>();
-            for (Module Module : listModules) {
-                list.add(Module.getTitle());
-            }
-            ListAdapter adapter = new ArrayAdapter<String>(act, android.R.layout.simple_list_item_1, list);
+
+            ModuleListAdapter adapter = new ModuleListAdapter(act, R.layout.module_list_row, listModules);
             listview.setAdapter(adapter);
 
-            ProgressBar bar = (ProgressBar) act.findViewById(R.id.module_progress);
-            bar.setVisibility(View.INVISIBLE);
-
-            listview.setVisibility(View.VISIBLE);
+            displayContent();
         }
     }
 }

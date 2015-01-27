@@ -1,5 +1,6 @@
 package root.epiandroid.model;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,22 @@ public class ModuleModel extends AbstractModel {
     private String error = null;
     private String token = null;
     private String login = null;
+    private int filter = 0;
     private List<Module> listModule = null;
 
     public void reload() {
         error = null;
         listModule = null;
         notifyObserver();
+    }
+
+    public int getFilter() {
+        return filter;
+    }
+
+    public void setFilter(int filter) {
+        this.filter = filter;
+        reload();
     }
 
     public ModuleModel() {
@@ -34,11 +45,50 @@ public class ModuleModel extends AbstractModel {
         return listModule;
     }
 
+    public Boolean filter0(Module module) {
+        //tous
+        return true;
+    }
+
+    public Boolean filter1(Module module) {
+        //mon semestre
+        if (module.getSemester().equals("5"))
+            return true;
+        return false;
+    }
+
+    public Boolean filter2(Module module) {
+        //en cour
+        if (module.getGrade().equals("-"))
+            return true;
+        return false;
+    }
+
+    public Boolean filter3(Module module) {
+        //acquis
+        if (!module.getGrade().equals("Echec") && !module.getGrade().equals("-"))
+            return true;
+        return false;
+    }
+
+    public Boolean filter4(Module module) {
+        //echec
+        if (module.getGrade().equals("Echec"))
+            return true;
+        return false;
+    }
+
     public void setListModules(List<Module> listModules) {
         if (listModule == null)
             listModule = new ArrayList<Module>();
-        for (Module Module : listModules) {
-            listModule.add(Module);
+        Method mth = null;
+        try {
+            mth = ModuleModel.class.getDeclaredMethod("filter" + filter, Module.class);
+            for (Module Module : listModules) {
+                if (!Module.getTitle().equals("") && (Boolean) mth.invoke(this, Module))
+                    listModule.add(Module);
+            }
+        } catch (Exception e) {
         }
         notifyObserver();
     }

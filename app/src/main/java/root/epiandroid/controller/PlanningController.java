@@ -91,11 +91,15 @@ public class PlanningController {
         planningModel.setLogin(login);
     }
 
-    public void planninReload() {
+    public void planningReload() {
         planningModel.planningReload();
     }
 
     public void setListEvents(List<Event> listEvents) {
         planningModel.setListEvents(listEvents);
+    }
+
+    public void setFilter(int filter) {
+        planningModel.setFilter(filter);
     }
 }

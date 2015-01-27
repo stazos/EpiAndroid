@@ -10,48 +10,81 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true" />
 
-    <TextView
-        android:id="@+id/event_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:gravity="center"
-        android:text="title"
-        android:layout_marginTop="150dp"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/event_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:textColor="#ffcc0002"
-        android:gravity="center"
-        android:text="Impossible de ce connecter.\n Veuillez réessayer"
-        android:layout_marginTop="42dp"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/event_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Valider token"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="205dp" />
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="title" />
+
+        <TextView
+            android:id="@+id/event_title_module"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="title module" />
+
+        <TextView
+            android:id="@+id/event_duree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="duree" />
+
+        <TextView
+            android:id="@+id/event_salle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="salle" />
+
+        <TextView
+            android:id="@+id/event_statut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="statut" />
+
+        <EditText
+            android:id="@+id/event_token"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:hint="token"
+            android:ems="10" />
+
+        <Button
+            android:id="@+id/event_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/epitechBlue"
+            android:textColor="@color/background_material_light"
+            android:text="Valider token" />
 
 
-    <EditText
-        android:id="@+id/event_token"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="token"
-        android:ems="10"
-        android:layout_above="@+id/event_button"
-        android:layout_marginBottom="35dp"
-        android:layout_centerHorizontal="true"/>
+    </LinearLayout>
+
 
 </RelativeLayout>

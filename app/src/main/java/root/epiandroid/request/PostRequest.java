@@ -40,6 +40,7 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
         try {
             methodMap.put("/login", RequestController.class.getDeclaredMethod("login", Context.class, String.class));
             methodMap.put("/infos:log", RequestController.class.getDeclaredMethod("getLog", Context.class, String.class));
+            methodMap.put("/token", RequestController.class.getDeclaredMethod("tokenResponse", Context.class, String.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }

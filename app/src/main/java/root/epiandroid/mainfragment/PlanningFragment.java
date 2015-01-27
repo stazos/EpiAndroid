@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -97,10 +100,52 @@ public class PlanningFragment extends AbstractObserverFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        RequestController.getInstance().stopAllRequest();
+        displayLoading();
+        PlanningController.getInstance().planningReload();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.reload_menu, menu);
+        inflater.inflate(R.menu.planning_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reload_option_menu:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                PlanningController.getInstance().planningReload();
+                return true;
+            case R.id.planning_option_enregistrer:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                PlanningController.getInstance().setFilter(0);
+                return true;
+            case R.id.planning_option_tout:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                PlanningController.getInstance().setFilter(1);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         displayLoading();
-        PlanningController.getInstance().addObserver(this);
         Activity act = getActivity();
         Button prevButton = (Button) act.findViewById(R.id.planning_button_prev);
         Button nextButton = (Button) act.findViewById(R.id.planning_button_next);
@@ -129,9 +174,10 @@ public class PlanningFragment extends AbstractObserverFragment {
             @Override
             public void onClick(View v) {
                 displayLoading();
-                PlanningController.getInstance().planninReload();
+                PlanningController.getInstance().planningReload();
             }
         });
+        PlanningController.getInstance().addObserver(this);
     }
 
     @Override

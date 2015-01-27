@@ -66,4 +66,29 @@ public class ProfilController {
         session.setListMessages(listMessages);
     }
 
+    public void setTitle(String title) {
+        session.setTitle(title);
+    }
+
+    public void setCurrentCredit(String currentCredit) {
+        session.setCurrentCredit(currentCredit);
+    }
+
+    public void setFailCredit(String failCredit) {
+        session.setFailCredit(failCredit);
+    }
+
+    public void setInProgressCredit(String inProgressCredit) {
+        session.setInProgressCredit(inProgressCredit);
+    }
+
+    public void setSemesterNum(String semesterNum) {
+        session.setSemesterNum(semesterNum);
+    }
+
+    public void setPromo(String promo) {
+        session.setPromo(promo);
+    }
+
+
 }

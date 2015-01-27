@@ -1,5 +1,6 @@
 package root.epiandroid.model;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,12 +19,22 @@ public class PlanningModel extends AbstractModel {
     private String login = null;
     private Date currentMonday = null;
     private List<Event> listEvent = null;
+    private int filter = 0;
 
     public void planningReload() {
         error = null;
         listEvent = null;
         currentMonday = null;
         notifyObserver();
+    }
+
+    public int getFilter() {
+        return filter;
+    }
+
+    public void setFilter(int filter) {
+        this.filter = filter;
+        planningReload();
     }
 
     public String getError() {
@@ -62,14 +73,32 @@ public class PlanningModel extends AbstractModel {
         return listEvent;
     }
 
+    public Boolean filter0(Event event) {
+        //registered
+        if (!event.getRegistered().equals("null"))
+            return true;
+        return false;
+    }
+
+    public Boolean filter1(Event event) {
+        //tout
+        return true;
+    }
+
     public void setListEvents(List<Event> listEvents) {
         if (listEvent == null)
             listEvent = new ArrayList<Event>();
-        for (Event event : listEvents) {
-            // if (event.get!nodeToString(nodeEvent, "event_registered").equals("null")) {
-            listEvent.add(event);
+        Method mth = null;
+        try {
+            mth = PlanningModel.class.getDeclaredMethod("filter" + filter, Event.class);
+            for (Event event : listEvents) {
+                if ((Boolean) mth.invoke(this, event))
+                    listEvent.add(event);
+            }
+        } catch (Exception e) {
         }
         notifyObserver();
+
     }
 
     public String getToken() {

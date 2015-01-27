@@ -52,4 +52,8 @@ public class ModuleController {
     public void setListModules(List<Module> listModules) {
         moduleModel.setListModules(listModules);
     }
+
+    public void setFilter(int filter) {
+        moduleModel.setFilter(filter);
+    }
 }

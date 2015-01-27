@@ -40,6 +40,7 @@ public class GetRequest extends AsyncTask<Object, Void, String> {
             methodMap.put("/photo", RequestController.class.getDeclaredMethod("getPhoto", Context.class, String.class));
             methodMap.put("/messages", RequestController.class.getDeclaredMethod("getMessages", Context.class, String.class));
             methodMap.put("/planning", RequestController.class.getDeclaredMethod("getPlanning", Context.class, String.class));
+            methodMap.put("/marks", RequestController.class.getDeclaredMethod("getNotes", Context.class, String.class));
             methodMap.put("/projects", RequestController.class.getDeclaredMethod("getProjects", Context.class, String.class));
             methodMap.put("/modules", RequestController.class.getDeclaredMethod("getModules", Context.class, String.class));
         } catch (NoSuchMethodException e) {

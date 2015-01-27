@@ -35,6 +35,8 @@
         android:id="@+id/planning_button_prev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/background_floating_material_light"
+        android:background="@color/epitechBlue"
         android:text="prev" />
 
     <TextView
@@ -52,6 +54,8 @@
     <Button
         android:id="@+id/planning_button_next"
         android:text="next"
+        android:textColor="@color/background_floating_material_light"
+        android:background="@color/epitechBlue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

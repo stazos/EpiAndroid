@@ -20,6 +20,12 @@ public class ProfilModel extends AbstractModel {
     private String pathPicture = null;
     private Bitmap picture = null;
     private String logTime = null;
+    private String title = null;
+    private String currentCredit = null;
+    private String failCredit = null;
+    private String inProgressCredit = null;
+    private String semesterNum = null;
+    private String promo = null;
     private List<Message> listMessage = null;
 
     public void profilReload() {
@@ -28,6 +34,60 @@ public class ProfilModel extends AbstractModel {
         picture = null;
         logTime = null;
         listMessage = null;
+        notifyObserver();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+        notifyObserver();
+    }
+
+    public String getCurrentCredit() {
+        return currentCredit;
+    }
+
+    public void setCurrentCredit(String currentCredit) {
+        this.currentCredit = currentCredit;
+        notifyObserver();
+    }
+
+    public String getFailCredit() {
+        return failCredit;
+    }
+
+    public void setFailCredit(String failCredit) {
+        this.failCredit = failCredit;
+        notifyObserver();
+    }
+
+    public String getInProgressCredit() {
+        return inProgressCredit;
+    }
+
+    public void setInProgressCredit(String inProgressCredit) {
+        this.inProgressCredit = inProgressCredit;
+        notifyObserver();
+    }
+
+    public String getSemesterNum() {
+        return semesterNum;
+    }
+
+    public void setSemesterNum(String semesterNum) {
+        this.semesterNum = semesterNum;
+        notifyObserver();
+    }
+
+    public String getPromo() {
+        return promo;
+    }
+
+    public void setPromo(String promo) {
+        this.promo = promo;
         notifyObserver();
     }
 
@@ -114,6 +174,6 @@ public class ProfilModel extends AbstractModel {
     }
 
     public void notifyObserver() {
-        super.notifyObserver(error, token, login, pathPicture, picture, logTime, listMessage);
+        super.notifyObserver(error, token, login, pathPicture, picture, logTime, title, currentCredit, failCredit, inProgressCredit, semesterNum, promo, listMessage);
     }
 }
