@@ -92,7 +92,7 @@ public class EventActivity extends ActionBarActivity {
                         "codemodule", event.getCodeModule(),
                         "codeinstance", event.getCodeInstance(),
                         "codeacti", event.getCodeActi(),
-                        "tokenvalidationcode", "\"" + tokenField.getText() + "\"",
+                        "tokenvalidationcode", tokenField.getText(),
                         "codeevent", event.getCodeEvent());
             }
         });
