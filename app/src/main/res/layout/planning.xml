@@ -13,20 +13,13 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
-    <TextView
-        android:id="@+id/planning_error_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:text="error"
-        android:gravity="center"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:id="@+id/planning_reload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
+        android:background="@color/epitechBlue"
+        android:textColor="@color/background_floating_material_light"
         android:text="Reload"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />

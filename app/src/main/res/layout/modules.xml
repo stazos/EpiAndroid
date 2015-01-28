@@ -13,6 +13,18 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
+
+    <Button
+        android:id="@+id/module_reload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:background="@color/epitechBlue"
+        android:textColor="@color/background_floating_material_light"
+        android:text="Reload"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
     <ListView
         android:id="@+id/modules_list"
         android:visibility="visible"

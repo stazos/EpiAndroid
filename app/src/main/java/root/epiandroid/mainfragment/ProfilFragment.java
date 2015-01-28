@@ -59,7 +59,6 @@ public class ProfilFragment extends AbstractObserverFragment {
         TextView profilLog = (TextView) act.findViewById(R.id.profil_log_text);
 
 
-
         bar.setVisibility(View.INVISIBLE);
         reload.setVisibility(View.INVISIBLE);
 
@@ -192,6 +191,7 @@ public class ProfilFragment extends AbstractObserverFragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RequestController.getInstance().stopAllRequest();
                 displayLoading();
                 ProfilController.getInstance().profilReload();
             }
@@ -222,7 +222,7 @@ public class ProfilFragment extends AbstractObserverFragment {
             RequestController.getInstance().stopAllRequest();
             displayError();
 
-            int duration = Toast.LENGTH_LONG;
+            int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(act, error, duration);
             toast.show();
@@ -233,7 +233,7 @@ public class ProfilFragment extends AbstractObserverFragment {
             if (pathPicture != null && logTime == null && listMessages == null) {
                 RequestController.getInstance().post(act, "/infos:log", "token", token);
                 RequestController.getInstance().get(act, "/messages", "token", token);
-                RequestController.getInstance().image(pathPicture);
+                RequestController.getInstance().image(act, pathPicture);
             }
             if (picture != null && logTime != null && listMessages != null) {
 

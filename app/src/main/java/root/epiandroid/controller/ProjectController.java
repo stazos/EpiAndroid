@@ -32,7 +32,7 @@ public class ProjectController {
     }
 
     public void setError(String error) {
-        projectModel.setError("Impossible d'obtenir la photo de profil");
+        projectModel.setError(error);
     }
 
     public void clearListEvent() {

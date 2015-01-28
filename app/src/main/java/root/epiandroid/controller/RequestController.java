@@ -3,6 +3,8 @@ package root.epiandroid.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -73,6 +75,12 @@ public class RequestController {
         _login = newLogin;
     }
 
+    public boolean isNetworkAvailable(Context ctx) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
     public JsonNode getNodeTree(String str) {
         if (str == null)
             return null;
@@ -115,25 +123,57 @@ public class RequestController {
         listLoadingReq.remove(req);
     }
 
-    public ImageRequest image(String url) {
-        ImageRequest req = new ImageRequest(url);
-        req.execute();
-        listLoadingReq.add(req);
-        return req;
+    public ImageRequest image(Context ctx, String url) {
+        if (isNetworkAvailable(ctx)) {
+            ImageRequest req = new ImageRequest(url);
+            req.execute();
+            listLoadingReq.add(req);
+            return req;
+        } else {
+            ProfilController.getInstance().setError("aucune connection");
+            return null;
+        }
+
     }
 
     public PostRequest post(Context ctx, Object... objs) {
-        PostRequest post = new PostRequest(ctx);
-        post.execute(objs);
-        listLoadingReq.add(post);
-        return post;
+        if (isNetworkAvailable(ctx)) {
+            PostRequest post = new PostRequest(ctx);
+            post.execute(objs);
+            listLoadingReq.add(post);
+            return post;
+        } else {
+            Object[] listObj = objs.clone();
+            if (((String) listObj[0]).equals("/login"))
+                ((LoginActivity) ctx).onError();
+            else if (((String) listObj[0]).equals("/infos:log"))
+                ProfilController.getInstance().setError("aucune connection");
+            else if (((String) listObj[0]).equals("/token"))
+                geteAct().onTokenResponse("aucune connection");
+            return null;
+        }
     }
 
     public GetRequest get(Context ctx, Object... objs) {
-        GetRequest get = new GetRequest(ctx);
-        get.execute(objs);
-        listLoadingReq.add(get);
-        return get;
+        if (isNetworkAvailable(ctx)) {
+            GetRequest get = new GetRequest(ctx);
+            get.execute(objs);
+            listLoadingReq.add(get);
+            return get;
+        } else {
+            Object[] listObj = objs.clone();
+            if (((String) listObj[0]).equals("/photo") || ((String) listObj[0]).equals("/messages"))
+                ProfilController.getInstance().setError("aucune connection");
+            else if (((String) listObj[0]).equals("/planning"))
+                PlanningController.getInstance().setError("aucune connection");
+            else if (((String) listObj[0]).equals("/marks"))
+                NoteController.getInstance().setError("aucune connection");
+            else if (((String) listObj[0]).equals("/projects"))
+                ProjectController.getInstance().setError("aucune connection");
+            else if (((String) listObj[0]).equals("/modules"))
+                ModuleController.getInstance().setError("aucune connection");
+            return null;
+        }
     }
 
     public void login(Context ctx, String str) {

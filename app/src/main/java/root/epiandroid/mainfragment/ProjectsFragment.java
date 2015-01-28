@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -37,7 +39,51 @@ public class ProjectsFragment extends AbstractObserverFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Activity act = getActivity();
+        displayLoading();
+        Button button = (Button) act.findViewById(R.id.project_reload);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ProjectController.getInstance().ProjectReload();
+            }
+        });
         ProjectController.getInstance().addObserver(this);
+    }
+
+    public void displayLoading() {
+        Activity act = getActivity();
+        ListView listview = (ListView) act.findViewById(R.id.projects_list);
+        ProgressBar bar = (ProgressBar) act.findViewById(R.id.project_progress);
+        Button button = (Button) act.findViewById(R.id.project_reload);
+
+        button.setVisibility(View.INVISIBLE);
+        listview.setVisibility(View.INVISIBLE);
+        bar.setVisibility(View.VISIBLE);
+    }
+
+    public void displayContent() {
+        Activity act = getActivity();
+        ListView listview = (ListView) act.findViewById(R.id.projects_list);
+        ProgressBar bar = (ProgressBar) act.findViewById(R.id.project_progress);
+        Button button = (Button) act.findViewById(R.id.project_reload);
+
+        button.setVisibility(View.INVISIBLE);
+        bar.setVisibility(View.INVISIBLE);
+        listview.setVisibility(View.VISIBLE);
+    }
+
+    public void displayError() {
+        Activity act = getActivity();
+        ListView listview = (ListView) act.findViewById(R.id.projects_list);
+        ProgressBar bar = (ProgressBar) act.findViewById(R.id.project_progress);
+        Button button = (Button) act.findViewById(R.id.project_reload);
+
+        bar.setVisibility(View.INVISIBLE);
+        listview.setVisibility(View.INVISIBLE);
+        button.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -55,19 +101,26 @@ public class ProjectsFragment extends AbstractObserverFragment {
         List<Project> listProjects = (List<Project>) listArgs[3];
         Activity act = getActivity();
 
-        if (listProjects == null) {
-            RequestController.getInstance().get(act, "/projects", "token", token);
-        }
-        if (listProjects != null) {
-            ListView listview = (ListView) act.findViewById(R.id.projects_list);
+        if (error != null) {
+            RequestController.getInstance().stopAllRequest();
+            displayError();
 
-            ProjectListAdapter adapter = new ProjectListAdapter(act, R.layout.project_list_row, listProjects);
-            listview.setAdapter(adapter);
+            int duration = Toast.LENGTH_SHORT;
 
-            ProgressBar bar = (ProgressBar) act.findViewById(R.id.project_progress);
-            bar.setVisibility(View.INVISIBLE);
+            Toast toast = Toast.makeText(act, error, duration);
+            toast.show();
+        } else {
+            if (listProjects == null) {
+                RequestController.getInstance().get(act, "/projects", "token", token);
+            }
+            if (listProjects != null) {
+                ListView listview = (ListView) act.findViewById(R.id.projects_list);
 
-            listview.setVisibility(View.VISIBLE);
+                ProjectListAdapter adapter = new ProjectListAdapter(act, R.layout.project_list_row, listProjects);
+                listview.setAdapter(adapter);
+
+                displayContent();
+            }
         }
 
     }

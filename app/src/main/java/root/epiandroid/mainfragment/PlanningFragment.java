@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,14 +49,12 @@ public class PlanningFragment extends AbstractObserverFragment {
     public void displayContent() {
         Activity act = getActivity();
         ProgressBar bar = (ProgressBar) act.findViewById(R.id.planning_progress);
-        TextView planningErrorText = (TextView) act.findViewById(R.id.planning_error_text);
         Button errorButton = (Button) act.findViewById(R.id.planning_reload);
         Button prevButton = (Button) act.findViewById(R.id.planning_button_prev);
         TextView planningText = (TextView) act.findViewById(R.id.planning_text);
         Button nextButton = (Button) act.findViewById(R.id.planning_button_next);
         ListView listview = (ListView) act.findViewById(R.id.planning_list);
         bar.setVisibility(View.INVISIBLE);
-        planningErrorText.setVisibility(View.INVISIBLE);
         errorButton.setVisibility(View.INVISIBLE);
         prevButton.setVisibility(View.VISIBLE);
         planningText.setVisibility(View.VISIBLE);
@@ -66,14 +65,12 @@ public class PlanningFragment extends AbstractObserverFragment {
     public void displayLoading() {
         Activity act = getActivity();
         ProgressBar bar = (ProgressBar) act.findViewById(R.id.planning_progress);
-        TextView planningErrorText = (TextView) act.findViewById(R.id.planning_error_text);
         Button errorButton = (Button) act.findViewById(R.id.planning_reload);
         Button prevButton = (Button) act.findViewById(R.id.planning_button_prev);
         TextView planningText = (TextView) act.findViewById(R.id.planning_text);
         Button nextButton = (Button) act.findViewById(R.id.planning_button_next);
         ListView listview = (ListView) act.findViewById(R.id.planning_list);
         bar.setVisibility(View.VISIBLE);
-        planningErrorText.setVisibility(View.INVISIBLE);
         errorButton.setVisibility(View.INVISIBLE);
         prevButton.setVisibility(View.INVISIBLE);
         planningText.setVisibility(View.INVISIBLE);
@@ -84,14 +81,12 @@ public class PlanningFragment extends AbstractObserverFragment {
     public void displayError() {
         Activity act = getActivity();
         ProgressBar bar = (ProgressBar) act.findViewById(R.id.planning_progress);
-        TextView planningErrorText = (TextView) act.findViewById(R.id.planning_error_text);
         Button errorButton = (Button) act.findViewById(R.id.planning_reload);
         Button prevButton = (Button) act.findViewById(R.id.planning_button_prev);
         TextView planningText = (TextView) act.findViewById(R.id.planning_text);
         Button nextButton = (Button) act.findViewById(R.id.planning_button_next);
         ListView listview = (ListView) act.findViewById(R.id.planning_list);
         bar.setVisibility(View.INVISIBLE);
-        planningErrorText.setVisibility(View.VISIBLE);
         errorButton.setVisibility(View.VISIBLE);
         prevButton.setVisibility(View.INVISIBLE);
         planningText.setVisibility(View.INVISIBLE);
@@ -153,7 +148,7 @@ public class PlanningFragment extends AbstractObserverFragment {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Activity act = getActivity();
+                RequestController.getInstance().stopAllRequest();
                 Date prevMonday = PlanningController.getInstance().getPrevMonday();
                 PlanningController.getInstance().setCurrentMonday(prevMonday);
                 displayLoading();
@@ -163,7 +158,7 @@ public class PlanningFragment extends AbstractObserverFragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Activity act = getActivity();
+                RequestController.getInstance().stopAllRequest();
                 Date newMonday = PlanningController.getInstance().getNextMonday();
                 PlanningController.getInstance().setCurrentMonday(newMonday);
                 displayLoading();
@@ -173,6 +168,7 @@ public class PlanningFragment extends AbstractObserverFragment {
         reloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RequestController.getInstance().stopAllRequest();
                 displayLoading();
                 PlanningController.getInstance().planningReload();
             }
@@ -199,9 +195,12 @@ public class PlanningFragment extends AbstractObserverFragment {
 
         if (error != null) {
             RequestController.getInstance().stopAllRequest();
-            TextView planningErrorText = (TextView) act.findViewById(R.id.planning_error_text);
-            planningErrorText.setText(error);
             displayError();
+
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(act, error, duration);
+            toast.show();
         } else {
             if (listEvents == null) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -209,6 +208,7 @@ public class PlanningFragment extends AbstractObserverFragment {
                 Log.e("test", dateStart);
 
                 Calendar c = Calendar.getInstance();
+                c.setFirstDayOfWeek(Calendar.MONDAY);
                 c.setTime(currentMonday);
                 c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                 String dateEnd = sdf.format(c.getTime());

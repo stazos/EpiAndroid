@@ -32,7 +32,7 @@ public class ModuleController {
     }
 
     public void setError(String error) {
-        moduleModel.setError("Impossible d'obtenir la photo de profil");
+        moduleModel.setError(error);
     }
 
     public void clearListModules() {

@@ -40,7 +40,7 @@ public class ProfilController {
     }
 
     public void setError(String error) {
-        session.setError("Impossible d'obtenir la photo de profil");
+        session.setError(error);
     }
 
     public void setPathPicture(String pathPicture) {
