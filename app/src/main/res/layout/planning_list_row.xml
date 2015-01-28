@@ -8,7 +8,7 @@
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="date"
+        android:text="@string/notSet"
         android:gravity="center"
         android:textColor="@color/background_floating_material_light"
         android:background="@color/background_floating_material_dark" />
@@ -18,7 +18,7 @@
         android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="title"
+        android:text="@string/notSet"
         android:layout_below="@+id/planning_row_date"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="salle"
+        android:text="@string/notSet"
         android:layout_below="@+id/planning_row_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -39,7 +39,7 @@
         android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hour"
+        android:text="@string/notSet"
         android:textColor="#ffcc0002"
         android:layout_alignTop="@+id/planning_row_salle"
         android:layout_alignParentRight="true"

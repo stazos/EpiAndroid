@@ -20,7 +20,7 @@
         android:visibility="visible"
         android:background="@color/epitechBlue"
         android:textColor="@color/background_floating_material_light"
-        android:text="Reload"
+        android:text="@string/buttonReload"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 

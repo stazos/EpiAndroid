@@ -12,5 +12,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+    <string name="hintLogin">login</string>
+    <string name="hintPassword">password</string>
+    <string name="buttonConnectionLogin">connection</string>
+    <string name="buttonValidateToken">valider</string>
+    <string name="hintToken">token</string>
+    <string name="notSet">not set</string>
+    <string name="buttonReload">reload</string>
+    <string name="buttonPrev">prev</string>
+    <string name="buttonNext">next</string>
 
 </resources>

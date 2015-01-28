@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="title"
+        android:text="@string/notSet"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -19,7 +19,7 @@
         android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="title project"
+        android:text="@string/notSet"
         android:layout_below="@+id/project_row_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -30,7 +30,7 @@
         android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="date start"
+        android:text="@string/notSet"
         android:layout_below="@+id/project_row_title_module"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -40,7 +40,7 @@
         android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="date end"
+        android:text="@string/notSet"
         android:layout_alignTop="@+id/project_row_date_start"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

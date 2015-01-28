@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import root.epiandroid.MainActivity;
@@ -93,6 +97,31 @@ public class NotesFragment extends AbstractObserverFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.reload_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reload_option_menu:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                NoteController.getInstance().NoteReload();
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void update(Object... objs) {
         Object[] listArgs = objs.clone();
         String error = (String) listArgs[0];
@@ -113,9 +142,12 @@ public class NotesFragment extends AbstractObserverFragment {
                 RequestController.getInstance().get(act, "/marks", "token", token);
             }
             if (listNotes != null) {
+                List<Note> listReverse = new ArrayList<>();
+                for (Note note : listNotes)
+                    listReverse.add(0, note);
                 ListView listview = (ListView) act.findViewById(R.id.notes_list);
 
-                NoteListAdapter adapter = new NoteListAdapter(act, R.layout.note_list_row, listNotes);
+                NoteListAdapter adapter = new NoteListAdapter(act, R.layout.note_list_row, listReverse);
                 listview.setAdapter(adapter);
 
                 displayContent();

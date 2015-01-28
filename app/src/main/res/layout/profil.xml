@@ -16,7 +16,7 @@
         android:id="@+id/profil_reload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reload"
+        android:text="@string/buttonReload"
         android:textColor="@color/background_floating_material_light"
         android:background="@color/epitechBlue"
         android:layout_centerHorizontal="true"
@@ -48,49 +48,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="login" />
+                    android:text="@string/notSet" />
 
                 <TextView
                     android:id="@+id/profil_current_credit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="log:" />
+                    android:text="@string/notSet" />
 
                 <TextView
                     android:id="@+id/profil_in_progress_credit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="log:" />
+                    android:text="@string/notSet" />
 
                 <TextView
                     android:id="@+id/profil_fail_credit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="log:" />
+                    android:text="@string/notSet" />
 
                 <TextView
                     android:id="@+id/profil_semester_num_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="log:" />
+                    android:text="@string/notSet" />
 
                 <TextView
                     android:id="@+id/profil_promo_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="log:" />
+                    android:text="@string/notSet" />
 
                 <TextView
                     android:id="@+id/profil_log_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="log:" />
+                    android:text="@string/notSet" />
             </LinearLayout>
         </LinearLayout>
 

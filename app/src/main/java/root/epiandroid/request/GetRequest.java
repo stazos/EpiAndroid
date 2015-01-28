@@ -62,6 +62,9 @@ public class GetRequest extends AsyncTask<Object, Void, String> {
             for (int i = 1; i < args.size(); i = i + 2) {
                 nameValuePair.add(new BasicNameValuePair(args.get(i).toString(), args.get(i + 1).toString()));
             }
+            for (NameValuePair pair : nameValuePair) {
+                Log.e("test", pair.getName() + " " + pair.getValue());
+            }
             String paramString = URLEncodedUtils.format(nameValuePair, "utf-8");
             url += paramString;
             Log.e("test", url);

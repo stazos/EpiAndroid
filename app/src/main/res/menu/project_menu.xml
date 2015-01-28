@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/project_option_tout"
+        android:title="Tout"></item>
+    <item
+        android:id="@+id/project_option_inscrit"
+        android:title="Inscrit"></item>
+    <item
+        android:id="@+id/project_option_non_inscrit"
+        android:title="Non inscrit"></item>
+</menu>

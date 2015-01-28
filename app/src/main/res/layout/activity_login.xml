@@ -27,8 +27,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:gravity="center"
-            android:hint="login"
-            android:text="vesy_m"
+            android:hint="@string/hintLogin"
             android:ems="10"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal" />
@@ -39,8 +38,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:gravity="center"
-            android:hint="password"
-            android:text="tj8pmLIt"
+            android:hint="@string/hintPassword"
             android:ems="10"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal" />
@@ -53,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:text="Connexion" />
+            android:text="@string/buttonConnectionLogin" />
 
     </LinearLayout>
 

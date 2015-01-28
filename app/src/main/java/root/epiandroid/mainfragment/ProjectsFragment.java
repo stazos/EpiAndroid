@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -90,6 +93,47 @@ public class ProjectsFragment extends AbstractObserverFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(5);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.reload_menu, menu);
+        inflater.inflate(R.menu.project_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reload_option_menu:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ProjectController.getInstance().ProjectReload();
+                return true;
+            case R.id.project_option_tout:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ProjectController.getInstance().setFilter(0);
+                return true;
+            case R.id.project_option_inscrit:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ProjectController.getInstance().setFilter(1);
+                return true;
+            case R.id.project_option_non_inscrit:
+                RequestController.getInstance().stopAllRequest();
+                displayLoading();
+                ProjectController.getInstance().setFilter(2);
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

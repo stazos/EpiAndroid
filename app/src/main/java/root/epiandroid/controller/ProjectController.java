@@ -52,4 +52,8 @@ public class ProjectController {
     public void setListProjects(List<Project> listProjects) {
         projectModel.setListProjects(listProjects);
     }
+
+    public void setFilter(int i) {
+        projectModel.setFilter(i);
+    }
 }

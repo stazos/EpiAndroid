@@ -89,21 +89,21 @@ public class RequestController {
         try {
             rootNode = mapper.readTree(str.getBytes());
         } catch (Exception e) {
-            Log.e("test", e.getMessage());
+           // Log.e("test", e.getMessage());
         }
         return rootNode;
     }
 
     public String nodeToString(JsonNode node, String... listStr) {
         if (node == null)
-            return null;
+            return "null";
         JsonNode tmp = node;
         for (String str : listStr) {
             if (str == null)
-                return null;
+                return "null";
             tmp = tmp.get(str);
             if (tmp == null)
-                return null;
+                return "null";
         }
         String returnString = tmp.asText();
         if (returnString.startsWith("\"") && returnString.endsWith("\"") && returnString.length() > 1)
@@ -177,10 +177,10 @@ public class RequestController {
     }
 
     public void login(Context ctx, String str) {
-        System.out.println(str);
+        //System.out.println(str);
         JsonNode rootNode = getNodeTree(str);
         String token = nodeToString(rootNode, "token");
-        if (token == null) {
+        if (token.equals("null")) {
             ((LoginActivity) ctx).onError();
             return;
         }
@@ -226,7 +226,7 @@ public class RequestController {
         List<Message> listMessages = new ArrayList<>();
         JsonNode nodeMessage = null;
         while ((nodeMessage = rootNode.get(i)) != null) {
-            Log.e("test", nodeMessage.toString());
+           // Log.e("test", nodeMessage.toString());
             Message msg = new Message();
             msg.setTitle(android.text.Html.fromHtml(nodeToString(nodeMessage, "title")).toString());
             msg.setContent(android.text.Html.fromHtml(nodeToString(nodeMessage, "content")).toString());
@@ -240,7 +240,7 @@ public class RequestController {
     }
 
     public void getPlanning(Context ctx, String str) {
-        System.out.println(str);
+        //System.out.println(str);
         JsonNode rootNode = getNodeTree(str);
         //rootNode = null;
         if (rootNode == null) {
@@ -251,7 +251,7 @@ public class RequestController {
         List<Event> listEvents = new ArrayList<>();
         JsonNode nodeEvent = null;
         while ((nodeEvent = rootNode.get(i)) != null) {
-            Log.e("test", nodeEvent.toString());
+           // Log.e("test", nodeEvent.toString());
             Event event = new Event();
             event.setActiTitle(nodeToString(nodeEvent, "acti_title"));
             event.setCodeActi(nodeToString(nodeEvent, "codeacti"));
@@ -273,18 +273,18 @@ public class RequestController {
     }
 
     public void getNotes(Context ctx, String str) {
-        Log.e("test", str);
+       // Log.e("test", str);
         if (str == null) {
-            Log.e("teest", "plop");
+           // Log.e("teest", "plop");
             PlanningController.getInstance().setError("Impossible d'obtenir les Notes");
             return;
         }
         str = str.substring(1, str.length() - 1);
         str = str.replaceAll("notes:", "");
-        System.out.println(str);
+        //System.out.println(str);
         JsonNode rootNode = getNodeTree(str);
         if (rootNode == null) {
-            Log.e("teest", "plop");
+           // Log.e("teest", "plop");
             PlanningController.getInstance().setError("Impossible d'obtenir les Notes");
             return;
         }
@@ -292,7 +292,7 @@ public class RequestController {
         List<Note> listNotes = new ArrayList<>();
         JsonNode nodeNote = null;
         while ((nodeNote = rootNode.get(i)) != null) {
-            Log.e("test", nodeNote.toString());
+           // Log.e("test", nodeNote.toString());
             Note Note = new Note();
             Note.setTitle(nodeToString(nodeNote, "title"));
             Note.setComment(nodeToString(nodeNote, "comment"));
@@ -316,7 +316,7 @@ public class RequestController {
         List<Project> listProjects = new ArrayList<>();
         JsonNode nodeProject = null;
         while ((nodeProject = rootNode.get(i)) != null) {
-            Log.e("test", nodeProject.toString());
+           // Log.e("test", nodeProject.toString());
             Project Project = new Project();
             Project.setActiTitle(nodeToString(nodeProject, "acti_title"));
             Project.setCodeActi(nodeToString(nodeProject, "codeacti"));
@@ -334,18 +334,18 @@ public class RequestController {
     }
 
     public void getModules(Context ctx, String str) {
-        Log.e("test", str);
+       // Log.e("test", str);
         if (str == null) {
-            Log.e("teest", "plop");
+            //Log.e("teest", "plop");
             PlanningController.getInstance().setError("Impossible d'obtenir les Modules");
             return;
         }
         str = str.substring(1, str.length() - 1);
         str = str.replaceAll("modules:", "");
-        System.out.println(str);
+       // System.out.println(str);
         JsonNode rootNode = getNodeTree(str);
         if (rootNode == null) {
-            Log.e("teest", "plop");
+           // Log.e("teest", "plop");
             PlanningController.getInstance().setError("Impossible d'obtenir les Modules");
             return;
         }
@@ -353,7 +353,7 @@ public class RequestController {
         List<Module> listModules = new ArrayList<>();
         JsonNode nodeModule = null;
         while ((nodeModule = rootNode.get(i)) != null) {
-            Log.e("test", nodeModule.toString());
+           // Log.e("test", nodeModule.toString());
             Module Module = new Module();
             Module.setCodeInstance(nodeToString(nodeModule, "codeinstance"));
             Module.setCodeModule(nodeToString(nodeModule, "codemodule"));

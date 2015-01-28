@@ -51,7 +51,7 @@ public class PostRequest extends AsyncTask<Object, Void, String> {
             List<Object> args = new ArrayList();
             for (Object obj : objs) {
                 args.add(obj);
-                Log.e("test", args.toString());
+                //Log.e("test", args.toString());
             }
             HttpClient httpClient = new DefaultHttpClient();
 

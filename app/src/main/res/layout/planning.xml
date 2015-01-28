@@ -20,7 +20,7 @@
         android:visibility="visible"
         android:background="@color/epitechBlue"
         android:textColor="@color/background_floating_material_light"
-        android:text="Reload"
+        android:text="@string/buttonReload"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/background_floating_material_light"
         android:background="@color/epitechBlue"
-        android:text="prev" />
+        android:text="@string/buttonPrev" />
 
     <TextView
         android:id="@+id/planning_text"
@@ -38,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_toEndOf="@+id/planning_button_prev"
         android:layout_toRightOf="@+id/planning_button_prev"
         android:layout_toLeftOf="@+id/planning_button_next"
         android:layout_toStartOf="@+id/planning_button_next"
@@ -46,7 +47,7 @@
 
     <Button
         android:id="@+id/planning_button_next"
-        android:text="next"
+        android:text="@string/buttonNext"
         android:textColor="@color/background_floating_material_light"
         android:background="@color/epitechBlue"
         android:layout_width="wrap_content"

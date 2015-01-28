@@ -26,7 +26,7 @@
             android:visibility="visible"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="title" />
+            android:text="@string/notSet" />
 
         <TextView
             android:id="@+id/event_title_module"
@@ -35,7 +35,7 @@
             android:visibility="visible"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="title module" />
+            android:text="@string/notSet" />
 
         <TextView
             android:id="@+id/event_duree"
@@ -44,7 +44,7 @@
             android:visibility="visible"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="duree" />
+            android:text="@string/notSet" />
 
         <TextView
             android:id="@+id/event_salle"
@@ -53,7 +53,7 @@
             android:visibility="visible"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="salle" />
+            android:text="@string/notSet" />
 
         <TextView
             android:id="@+id/event_statut"
@@ -62,7 +62,7 @@
             android:visibility="visible"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="statut" />
+            android:text="@string/notSet" />
 
         <EditText
             android:id="@+id/event_token"
@@ -71,7 +71,7 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:hint="token"
+            android:hint="@string/hintToken"
             android:ems="10" />
 
         <Button
@@ -81,7 +81,7 @@
             android:layout_gravity="center"
             android:background="@color/epitechBlue"
             android:textColor="@color/background_material_light"
-            android:text="Valider token" />
+            android:text="@string/buttonValidateToken" />
 
 
     </LinearLayout>
